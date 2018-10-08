@@ -1,0 +1,61 @@
+﻿@page "{id:int?}"
+@model PremierKitchensDB.Pages.Notes.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Note</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Note.NoteText)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note.NoteText)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note.IsAlert)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note.IsAlert)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note.CreatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note.CreatedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note.ApplicationUserCreatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note.ApplicationUserCreatedBy.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note.UpdatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note.UpdatedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note.ApplicationUserUpdatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note.ApplicationUserUpdatedBy.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note.Customer)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Note.Customer.Forename)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Note.NoteID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

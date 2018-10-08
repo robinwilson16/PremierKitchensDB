@@ -1,0 +1,270 @@
+﻿<!--Loading Area HTML showing loading animation-->
+<div id="LoadingHTML" class="d-none">
+    <div class="col text-center LoadingArea">
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+</div>
+
+<div class="modal fade" id="customerModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerModalLabel"><i class="fas fa-user"></i> <span class="title">Add Customer</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <nav class="nav nav-tabs" id="CustomerTabs">
+                                <a class="nav-link active" id="CustomerDetails-tab" data-toggle="tab" href="#CustomerDetails-content" role="tab"
+                                   aria-controls="CustomerDetails-content" aria-selected="true">Details</a>
+                                <a class="nav-link" id="Addresses-tab" data-toggle="tab" href="#Addresses-content" role="tab"
+                                   aria-controls="Addresses-content" aria-selected="false">Addresses</a>
+                                <a class="nav-link" id="Notes-tab" data-toggle="tab" href="#Notes-content" role="tab"
+                                   aria-controls="Notes-content" aria-selected="false">Notes</a>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="CustomerTabsContent">
+                        <div class="tab-pane fade show active" id="CustomerDetails-content" role="tabpanel" aria-labelledby="CustomerDetails-tab">
+                            <div class="container first">
+                                <div id="CustomerDetails" class="row">
+                                    <div class="col text-center LoadingArea">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Addresses-content" role="tabpanel" aria-labelledby="Addresses-tab">
+                            <div class="container first">
+                                <div id="AddressListArea" class="row table-responsive">
+                                    <div class="col text-center LoadingArea">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="alert alert-primary" role="alert">
+                                            <button type="button" class="btn btn-primary NewAddressButton" data-toggle="modal" data-target="#addressModal"><i class="fas fa-address-book"></i> Add New Address</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="Notes-content" role="tabpanel" aria-labelledby="Notes-tab">
+                            <div class="container first">
+                                <div id="NoteListArea" class="row table-responsive">
+                                    <div class="col text-center LoadingArea">
+                                        <i class="fas fa-spinner fa-spin"></i>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="alert alert-primary" role="alert">
+                                            <button type="button" class="btn btn-primary NewNoteButton" data-toggle="modal" data-target="#noteModal"><i class="fas fa-sticky-note"></i> Add New Note</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal" data-toggle="modal" data-target="#deleteCustomerModal"><i class="fas fa-trash-alt"></i> Delete</button>
+                <button type="button" class="btn btn-secondary AuditCustomerButton mr-auto" data-toggle="modal" data-target="#auditModal"><i class="fas fa-history"></i> Audit</button>
+                <button type="button" class="btn btn-primary SaveCustomerButton"><i class="fas fa-save"></i> Apply</button>
+                <button type="button" class="btn btn-primary SaveCustomerButton"><i class="fas fa-save"></i> OK</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteCustomerModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteCustomerModalLabel"><i class="fas fa-user-times"></i> <span class="title">Delete Customer</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container first">
+                    <div id="DeleteCustomerDetails" class="row">
+                        <div class="col text-center LoadingArea">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="DeleteCustomerButton" type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteCustomerModal"><i class="fas fa-trash-alt"></i> Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addressModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressModalLabel"><i class="fas fa-address-book"></i> <span class="title">Add Address</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container first">
+                    <div id="AddressDetails" class="row">
+                        <div class="col text-center LoadingArea">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal" data-toggle="modal" data-target="#deleteAddressModal"><i class="fas fa-trash-alt"></i> Delete</button>
+                <button type="button" class="btn btn-secondary AuditAddressButton mr-auto" data-toggle="modal" data-target="#auditModal"><i class="fas fa-history"></i> Audit</button>
+                <button type="button" class="btn btn-primary SaveAddressButton"><i class="fas fa-save"></i> Apply</button>
+                <button type="button" class="btn btn-primary SaveAddressButton"><i class="fas fa-save"></i> OK</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteAddressModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAddressModalLabel"><i class="fas fa-user-times"></i> <span class="title">Delete Address</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container first">
+                    <div id="DeleteAddressDetails" class="row">
+                        <div class="col text-center LoadingArea">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger DeleteAddressButton" data-dismiss="modal" data-toggle="modal" data-target="#deleteAddressModal"><i class="fas fa-trash-alt"></i> Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="noteModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noteModalLabel"><i class="fas fa-sticky-note"></i> <span class="title">Add Note</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container first">
+                    <div id="NoteDetails" class="row">
+                        <div class="col text-center LoadingArea">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger mr-auto" data-dismiss="modal" data-toggle="modal" data-target="#deleteNoteModal"><i class="fas fa-trash-alt"></i> Delete</button>
+                <button type="button" class="btn btn-secondary AuditNoteButton mr-auto" data-toggle="modal" data-target="#auditModal"><i class="fas fa-history"></i> Audit</button>
+                <button type="button" class="btn btn-primary SaveNoteButton"><i class="fas fa-save"></i> Apply</button>
+                <button type="button" class="btn btn-primary SaveNoteButton" data-dismiss="modal" data-toggle="modal"><i class="fas fa-save"></i> OK</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteNoteModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteNoteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteNoteModalLabel"><i class="fas fa-user-times"></i> <span class="title">Delete Note</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container first">
+                    <div id="DeleteNoteDetails" class="row">
+                        <div class="col text-center LoadingArea">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger DeleteNoteButton" data-dismiss="modal" data-toggle="modal" data-target="#deleteNoteModal"><i class="fas fa-trash-alt"></i> Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filterModalLabel"><i class="fas fa-filter"></i> Current Filters</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(@Model.CurrentSearchHTML)
+                <div class="alert alert-secondary" role="alert">
+                    <h6 class="alert-heading">SQL version</h6>
+                    <code>@Model.CurrentSearchSQL</code>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning ClearCurrentFiltersButton"><i class="fas fa-eraser"></i> Clear Current Filters</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="auditModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="auditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="auditModalLabel"><i class="fas fa-history"></i> <span class="title">Audit Trail for Object</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container first">
+                    <div id="AuditListArea" class="row">
+                        <div class="col text-center LoadingArea">
+                            <i class="fas fa-spinner fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>

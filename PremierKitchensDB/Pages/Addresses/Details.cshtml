@@ -1,0 +1,115 @@
+﻿@page "{id:int?}"
+@model PremierKitchensDB.Pages.Addresses.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>@Html.DisplayNameFor(model => model.Address.Address1)</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.Address1)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.Address1)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.Address2)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.Address2)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.Address3)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.Address3)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.Address4)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.Address4)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.PostcodeOut)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.PostcodeOut)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.PostcodeIn)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.PostcodeIn)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.HomePhone)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.HomePhone)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.DateFrom)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.DateFrom)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.DateTo)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.DateTo)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.IsPrimary)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.IsPrimary)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.CreatedDate)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.CreatedDate)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.ApplicationUserCreatedBy)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.ApplicationUserCreatedBy.Id)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.UpdatedDate)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.UpdatedDate)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.ApplicationUserUpdatedBy)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.ApplicationUserUpdatedBy.Id)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.Customer)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.Customer.Forename)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.AddressType)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.AddressType.AddressTypeID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Address.AddressID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

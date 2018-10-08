@@ -1,0 +1,69 @@
+﻿@page
+@model PremierKitchensDB.Pages.AuditTrails.EditModel
+
+<h4>AuditTrail</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AuditTrail.AuditTrailID" />
+            <div class="form-group">
+                <label asp-for="AuditTrail.TableName" class="control-label"></label>
+                <input asp-for="AuditTrail.TableName" class="form-control" />
+                <span asp-validation-for="AuditTrail.TableName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.ObjectID" class="control-label"></label>
+                <input asp-for="AuditTrail.ObjectID" class="form-control" />
+                <span asp-validation-for="AuditTrail.ObjectID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.WhereClause" class="control-label"></label>
+                <input asp-for="AuditTrail.WhereClause" class="form-control" />
+                <span asp-validation-for="AuditTrail.WhereClause" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.RowDescription" class="control-label"></label>
+                <input asp-for="AuditTrail.RowDescription" class="form-control" />
+                <span asp-validation-for="AuditTrail.RowDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.ChangeInfo" class="control-label"></label>
+                <input asp-for="AuditTrail.ChangeInfo" class="form-control" />
+                <span asp-validation-for="AuditTrail.ChangeInfo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.ChangeType" class="control-label"></label>
+                <input asp-for="AuditTrail.ChangeType" class="form-control" />
+                <span asp-validation-for="AuditTrail.ChangeType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.Screen" class="control-label"></label>
+                <input asp-for="AuditTrail.Screen" class="form-control" />
+                <span asp-validation-for="AuditTrail.Screen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.UpdatedDate" class="control-label"></label>
+                <input asp-for="AuditTrail.UpdatedDate" class="form-control" />
+                <span asp-validation-for="AuditTrail.UpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AuditTrail.UpdatedBy" class="control-label"></label>
+                <select asp-for="AuditTrail.UpdatedBy" class="form-control" asp-items="ViewBag.UpdatedBy"></select>
+                <span asp-validation-for="AuditTrail.UpdatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

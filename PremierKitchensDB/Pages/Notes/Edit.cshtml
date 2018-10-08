@@ -1,0 +1,80 @@
+﻿@page "{id:int?}"
+@model PremierKitchensDB.Pages.Notes.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Note</h4>
+<hr />
+<div class="row">
+    <div class="col-md" id="NoteForm">
+        <form method="post" id="NoteFormFields">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="Note.NoteText" class="control-label"></label>
+                <textarea asp-for="Note.NoteText" rows="5" class="form-control"></textarea>
+                <span asp-validation-for="Note.NoteText" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm">
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                        <input asp-for="Note.IsAlert" class="custom-control-input" />
+                        <label asp-for="Note.IsAlert" class="custom-control-label"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-light" role="alert">
+                <div class="row">
+                    <div class="col-md">
+                        <small>
+                            @if (Model.Note.ApplicationUserCreatedBy != null && Model.Note.CreatedDate != null)
+                            {
+                                @:Created by
+                                @Model.Note.ApplicationUserCreatedBy.Forename@: @Model.Note.ApplicationUserCreatedBy.Surname
+                                @:on
+                                @Model.Note.CreatedDate
+                            }
+                        </small>
+                    </div>
+
+                    <div class="col-md">
+                        <small>
+                            @if (Model.Note.ApplicationUserUpdatedBy != null && Model.Note.UpdatedDate != null)
+                            {
+                                @:Updated by
+                                @Model.Note.ApplicationUserUpdatedBy.Forename@: @Model.Note.ApplicationUserUpdatedBy.Surname
+                                @:on
+                                @Model.Note.UpdatedDate
+                            }
+                        </small>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <input type="hidden" asp-for="Note.CustomerID" />
+                <input type="hidden" asp-for="Note.NoteID" />
+                <input type="hidden" asp-for="Note.CreatedDate" value="1900-01-01 10:30" />
+                <input type="hidden" asp-for="Note.CreatedBy" />
+                <input type="hidden" asp-for="Note.UpdatedDate" />
+                <input type="hidden" asp-for="Note.UpdatedBy" />
+                <input type="hidden" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

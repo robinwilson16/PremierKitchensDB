@@ -1,0 +1,50 @@
+﻿<div style="display: none;">
+    <div id="FilterPanel">
+        <form method="post" id="CustomerFormFields">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-primary btn-block FilterButton" aria-label="EQ"><i class="far fa-eye"></i> Filter By Selection</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md HorSpacing">
+                        Enter <kbd>*</kbd> or <kbd>%</kbd> for partial matches
+                        <input type="search" class="form-control FilterSearch" placeholder="[Enter criteria, press enter]" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-primary btn-block FilterButton" aria-label="NEQ"><i class="far fa-eye-slash"></i> Filter Excluding Selection</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-primary btn-block FilterButton" aria-label="X"><i class="fas fa-ban"></i> Remove Filter</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md HorSpacing">
+                        <hr />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-primary btn-block"><i class="fas fa-sort-alpha-up"></i> Sort Ascending</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-primary btn-block"><i class="fas fa-sort-alpha-down"></i> Sort Descending</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <form method="get" id="doSearch">
+        <input id="SortQuery" type="text" name="sort" value="@Model.CurrentSort" />
+        <input id="FilterQuery" type="text" name="search" value="@Model.CurrentSearch" />
+    </form>
+</div>

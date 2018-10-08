@@ -1,0 +1,67 @@
+﻿@page
+@model PremierKitchensDB.Pages.AuditTrails.DetailsModel
+
+<div>
+    <h4>AuditTrail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.TableName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.TableName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.ObjectID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.ObjectID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.WhereClause)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.WhereClause)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.RowDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.RowDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.ChangeInfo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.ChangeInfo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.ChangeType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.ChangeType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.Screen)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.Screen)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.UpdatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.UpdatedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AuditTrail.ApplicationUserUpdatedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AuditTrail.ApplicationUserUpdatedBy.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.AuditTrail.AuditTrailID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

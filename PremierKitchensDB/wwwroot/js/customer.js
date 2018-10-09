@@ -4,7 +4,7 @@ $(function () {
 });
 
 //Load in functionality for customer list
-loadList("CustomerListArea", "Customers", "", "CustomerList", getSearchParams(), "OpenCustomerButton", "CustomerID");
+loadList("CustomerListArea", "Customers", "", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID");
 
 //Attach events to buttons
 $(".SaveCustomerButton").click(function (event) {
@@ -37,8 +37,6 @@ $(".DeleteAddressButton").click(function (event) {
 });
 
 $(".NewAddressButton").click(function (event) {
-    //Save customer first to generate customer ID
-    $("#CustomerFormFields").submit();
     $("#AddressID").val("");
 });
 
@@ -57,8 +55,6 @@ $(".DeleteNoteButton").click(function (event) {
 });
 
 $(".NewNoteButton").click(function (event) {
-    //Save customer first to generate customer ID
-    $("#CustomerFormFields").submit();
     $("#NoteID").val("");
 });
 
@@ -81,9 +77,9 @@ $("#customerModal").on("shown.bs.modal", function () {
     //Set form title back to blank to default to new recond functionality
     $("#FormTitleID").val("");
 
-    loadInputForm("CustomerDetails", "CustomerListArea", "Customers", customerID, "", "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "CustomerID", true, "customerModal");
-    loadList("AddressListArea", "Addresses", customerID, "AddressList", "", "OpenAddressButton", "AddressID");
-    loadList("NoteListArea", "Notes", customerID, "NoteList", "", "OpenNoteButton", "NoteID");
+    loadInputForm("CustomerDetails", "CustomerListArea", "Customers", customerID, "", "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID", true, "customerModal");
+    loadList("AddressListArea", "Addresses", customerID, "AddressList", "", "OpenAddressButton", "4", "asc", "AddressID");
+    loadList("NoteListArea", "Notes", customerID, "NoteList", "", "OpenNoteButton", "3", "desc", "NoteID");
 });
 
 $("#customerModal").on("hidden.bs.modal", function () {
@@ -97,7 +93,7 @@ $("#customerModal").on("hidden.bs.modal", function () {
 $("#deleteCustomerModal").on("shown.bs.modal", function () {
     var customerID = $("#CustomerID").val();
 
-    loadDeleteForm("DeleteCustomerDetails", "CustomerListArea", "Customers", customerID, "", "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "CustomerID", true, "customerModal");
+    loadDeleteForm("DeleteCustomerDetails", "CustomerListArea", "Customers", customerID, "", "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID", true, "customerModal");
 });
 
 $("#deleteCustomerModal").on("hidden.bs.modal", function () {
@@ -109,6 +105,32 @@ $("#addressModal").on("shown.bs.modal", function () {
     var addressID = $("#AddressID").val();
     var formTitle = $("#FormTitleID").val();
 
+    //If customer is blank then perform a save first
+    if (customerID === "") {
+        checkApplyOrOkClicked("Apply");
+        $("#CustomerFormFields").submit();
+        showAddressDeferred();
+    }
+    else {
+        showAddressModal(customerID, addressID, formTitle);
+    }
+});
+
+function showAddressDeferred() {
+    //Wait until we have customer ID
+    var customerID = $("#CustomerID").val();
+    var addressID = $("#AddressID").val();
+    var formTitle = $("#FormTitleID").val();
+
+    if (customerID === "") {
+        window.setTimeout(showAddressDeferred, 100);
+    }
+    else {
+        showAddressModal(customerID, addressID, formTitle);
+    }
+}
+
+function showAddressModal(customerID, addressID, formTitle) {
     if (formTitle === "") {
         formTitle = "New Address";
     }
@@ -118,8 +140,8 @@ $("#addressModal").on("shown.bs.modal", function () {
     //Set form title back to blank to default to new recond functionality
     $("#FormTitleID").val("");
 
-    loadInputForm("AddressDetails", "AddressListArea", "Addresses", addressID, customerID, "AddressForm", "AddressFormFields", "AddressList", "", "OpenAddressButton", "AddressID", true, "addressModal");
-});
+    loadInputForm("AddressDetails", "AddressListArea", "Addresses", addressID, customerID, "AddressForm", "AddressFormFields", "AddressList", "", "OpenAddressButton", "4", "asc", "AddressID", true, "addressModal");
+}
 
 $("#addressModal").on("hidden.bs.modal", function () {
     $("#AddressDetails").html($("#LoadingHTML").html());
@@ -129,7 +151,7 @@ $("#deleteAddressModal").on("shown.bs.modal", function () {
     var customerID = $("#CustomerID").val();
     var addressID = $("#AddressID").val();
 
-    loadDeleteForm("DeleteAddressDetails", "AddressListArea", "Addresses", addressID, customerID, "AddressForm", "AddressFormFields", "AddressList", "", "OpenAddressButton", "AddressID", true, "addressModal");
+    loadDeleteForm("DeleteAddressDetails", "AddressListArea", "Addresses", addressID, customerID, "AddressForm", "AddressFormFields", "AddressList", "", "OpenAddressButton", "4", "asc", "AddressID", true, "addressModal");
 });
 
 $("#deleteAddressModal").on("hidden.bs.modal", function () {
@@ -141,6 +163,32 @@ $("#noteModal").on("shown.bs.modal", function () {
     var noteID = $("#NoteID").val();
     var formTitle = $("#FormTitleID").val();
 
+    //If customer is blank then perform a save first
+    if (customerID === "") {
+        checkApplyOrOkClicked("Apply");
+        $("#CustomerFormFields").submit();
+        showNoteDeferred();
+    }
+    else {
+        showNoteModal(customerID, noteID, formTitle);
+    }
+});
+
+function showNoteDeferred() {
+    //Wait until we have customer ID
+    var customerID = $("#CustomerID").val();
+    var noteID = $("#NoteID").val();
+    var formTitle = $("#FormTitleID").val();
+
+    if (customerID === "") {
+        window.setTimeout(showNoteDeferred, 100);
+    }
+    else {
+        showNoteModal(customerID, noteID, formTitle);
+    }
+}
+
+function showNoteModal(customerID, noteID, formTitle) {
     if (formTitle === "") {
         formTitle = "New Note";
     }
@@ -150,8 +198,8 @@ $("#noteModal").on("shown.bs.modal", function () {
     //Set form title back to blank to default to new recond functionality
     $("#FormTitleID").val("");
 
-    loadInputForm("NoteDetails", "NoteListArea", "Notes", noteID, customerID, "NoteForm", "NoteFormFields", "NoteList", "", "OpenNoteButton", "NoteID", true, "noteModal");
-});
+    loadInputForm("NoteDetails", "NoteListArea", "Notes", noteID, customerID, "NoteForm", "NoteFormFields", "NoteList", "", "OpenNoteButton", "3", "desc", "NoteID", true, "noteModal");
+}
 
 $("#noteModal").on("hidden.bs.modal", function () {
     $("#NoteDetails").html($("#LoadingHTML").html());
@@ -161,7 +209,7 @@ $("#deleteNoteModal").on("shown.bs.modal", function () {
     var customerID = $("#CustomerID").val();
     var noteID = $("#NoteID").val();
 
-    loadDeleteForm("DeleteNoteDetails", "NoteListArea", "Notes", noteID, customerID, "NoteForm", "NoteFormFields", "NoteList", "", "OpenNoteButton", "NoteID", true, "noteModal");
+    loadDeleteForm("DeleteNoteDetails", "NoteListArea", "Notes", noteID, customerID, "NoteForm", "NoteFormFields", "NoteList", "", "OpenNoteButton", "3", "desc", "NoteID", true, "noteModal");
 });
 
 $("#deleteNoteModal").on("hidden.bs.modal", function () {
@@ -172,7 +220,7 @@ $("#auditModal").on("shown.bs.modal", function () {
     var AuditRecordID = $("#AuditRecordID").val();
     var AuditTable = $("#AuditTable").val();
 
-    loadList("AuditListArea", "AuditTrails", AuditTable + "/" + AuditRecordID, "AuditTrailsList", "", "OpenAuditButton", "");
+    loadList("AuditListArea", "AuditTrails", AuditTable + "/" + AuditRecordID, "AuditTrailsList", "", "OpenAuditButton", "1", "desc", "");
 });
 
 $("#auditModal").on("hidden.bs.modal", function () {

@@ -28,9 +28,8 @@
             @Html.DisplayNameFor(model => model.Note.ApplicationUserCreatedBy)
         </dt>
         <dd class="col-md-6">
-            @Html.DisplayFor(model => model.Note.ApplicationUserCreatedBy.Id)
+            @Html.DisplayFor(model => model.Note.ApplicationUserCreatedBy.Forename) @Html.DisplayFor(model => model.Note.ApplicationUserCreatedBy.Surname)
         </dd>
-        <dt class="col-md-6">
         <dt class="col-md-6">
             @Html.DisplayNameFor(model => model.Note.UpdatedDate)
         </dt>
@@ -41,19 +40,13 @@
             @Html.DisplayNameFor(model => model.Note.ApplicationUserUpdatedBy)
         </dt>
         <dd class="col-md-6">
-            @Html.DisplayFor(model => model.Note.ApplicationUserUpdatedBy.Id)
-        </dd>
-        <dt class="col-md-6">
-            @Html.DisplayNameFor(model => model.Note.Customer)
-        </dt>
-        <dd class="col-md-6">
-            @Html.DisplayFor(model => model.Note.Customer.Forename)
+            @Html.DisplayFor(model => model.Note.ApplicationUserUpdatedBy.Forename) @Html.DisplayFor(model => model.Note.ApplicationUserUpdatedBy.Surname)
         </dd>
     </dl>
 
     <form method="post" id="NoteFormFields" class="d-none">
         <input type="hidden" asp-for="Note.NoteID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <input type="hidden" value="Delete" class="btn btn-default" /> |
         <a asp-page="./Index">Back to List</a>
     </form>
 </div>

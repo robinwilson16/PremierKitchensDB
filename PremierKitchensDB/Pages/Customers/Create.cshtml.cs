@@ -29,6 +29,7 @@ namespace PremierKitchensDB.Pages.Customers
             ViewData["TitleID"] = new SelectList(_context.Lookup.Where(L => L.Domain == "TITLE"), "LookupCode", "LookupName");
             ViewData["ShowroomID"] = new SelectList(_context.Showroom, "ShowroomID", "ShowroomName");
             ViewData["SourceOfInformationID"] = new SelectList(_context.SourceOfInformation, "SourceOfInformationID", "SourceOfInformationName");
+            ViewData["DateOfEnquiry"] = DateTime.Today.ToString("yyyy-MM-dd");
 
             var customer = new Customer();
             customer.CustomerArea = new List<CustomerArea>();

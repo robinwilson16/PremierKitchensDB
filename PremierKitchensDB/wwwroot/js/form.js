@@ -187,10 +187,19 @@ function loadList(
     listToRefresh,
     listQueryParams,
     listButtonClass,
-    objectIDField
+    listSortCol,
+    listSortOrder,
+    objectIDField,
 ) {
     var dataToLoad;
-    
+
+    if (!listSortCol) {
+        listSortCol = "1";
+    }
+    if (!listSortOrder) {
+        listSortOrder = "asc";
+    }
+
     if (listObjectID.length > 0) {
         dataToLoad = "/" + relativeURL + "/Index/" + listObjectID + listQueryParams + " #" + listToRefresh;
     }
@@ -203,10 +212,16 @@ function loadList(
             doErrorModal("Error Loading " + dataToLoad, "The list at " + dataToLoad + " returned a server error and could not be loaded");
         }
         else {
-            attachListFunctions(listButtonClass, objectIDField);
+            attachListFunctions(
+                listButtonClass,
+                objectIDField
+            );
             console.log(dataToLoad + " Loaded");
             //Need jquery datatables plugin
-            $(".dataList").DataTable();
+            var table = $(".dataList").DataTable();
+            table
+                .order([listSortCol, listSortOrder])
+                .draw();
 
             //Show any alerts from the remote page
             var alerts = $(".Alerts", responseText).html();
@@ -239,6 +254,8 @@ function loadInputForm(
     listToRefresh,
     listQueryParams,
     listButtonClass,
+    listSortCol,
+    listSortOrder,
     objectIDField,
     closeModalOnSuccess,
     modelToClose
@@ -269,6 +286,8 @@ function loadInputForm(
                 listToRefresh,
                 listQueryParams,
                 listButtonClass,
+                listSortCol,
+                listSortOrder,
                 objectIDField,
                 closeModalOnSuccess,
                 modelToClose
@@ -289,6 +308,8 @@ function loadDeleteForm(
     listToRefresh,
     listQueryParams,
     listButtonClass,
+    listSortCol,
+    listSortOrder,
     objectIDField,
     closeModalOnSuccess,
     modelToClose
@@ -311,6 +332,8 @@ function loadDeleteForm(
                     listToRefresh,
                     listQueryParams,
                     listButtonClass,
+                    listSortCol,
+                    listSortOrder,
                     objectIDField,
                     closeModalOnSuccess,
                     modelToClose
@@ -334,6 +357,8 @@ function attachSubmitInputForm(
     listToRefresh,
     listQueryParams,
     listButtonClass,
+    listSortCol,
+    listSortOrder,
     objectIDField,
     closeModalOnSuccess,
     modelToClose
@@ -371,6 +396,8 @@ function attachSubmitInputForm(
                             listToRefresh,
                             listQueryParams,
                             listButtonClass,
+                            listSortCol,
+                            listSortOrder,
                             objectIDField
                         );
                     },
@@ -411,6 +438,8 @@ function attachSubmitInputForm(
                             listToRefresh,
                             listQueryParams,
                             listButtonClass,
+                            listSortCol,
+                            listSortOrder,
                             objectIDField
                         );
                     },
@@ -435,6 +464,8 @@ function attachSubmitDeleteForm(
     listToRefresh,
     listQueryParams,
     listButtonClass,
+    listSortCol,
+    listSortOrder,
     objectIDField,
     closeModalOnSuccess,
     modelToClose
@@ -465,6 +496,8 @@ function attachSubmitDeleteForm(
                             listToRefresh,
                             listQueryParams,
                             listButtonClass,
+                            listSortCol,
+                            listSortOrder,
                             objectIDField
                         );
                     },

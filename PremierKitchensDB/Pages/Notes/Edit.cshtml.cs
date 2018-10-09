@@ -63,6 +63,8 @@ namespace PremierKitchensDB.Pages.Notes
             _context.Attach(Note).State = EntityState.Modified;
 
             //Override values for updated by and date
+            Note.CreatedBy = originalNote.CreatedBy;
+            Note.CreatedDate = originalNote.CreatedDate;
             Note.UpdatedDate = DateTime.Now;
             Note.UpdatedBy = Shared.Identity.GetUserId(User, _context);
 

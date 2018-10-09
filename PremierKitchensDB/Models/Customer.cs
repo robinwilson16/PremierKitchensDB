@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -28,6 +29,8 @@ namespace PremierKitchensDB.Models
 
         [Display(Name = "Title")]
         [StringLength(10)]
+        [BindRequired]
+        [Required(ErrorMessage = "Select a title")]
         public string Title { get; set; }
 
         [Display(Name = "Email")]
@@ -62,10 +65,12 @@ namespace PremierKitchensDB.Models
         public DateTime? DateOfEnquiry { get; set; }
 
         [Display(Name = "Showroom")]
+        [BindRequired]
+        [Required(ErrorMessage = "Select a showroom")]
         public int ShowroomID { get; set; }
 
         [Display(Name = "Source of Info")]
-        public int SourceOfInformationID { get; set; }
+        public int? SourceOfInformationID { get; set; }
 
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; }
@@ -73,6 +78,7 @@ namespace PremierKitchensDB.Models
         public string CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
         [JsonIgnore]
+        [Display(Name = "Created By")]
         public ApplicationUser ApplicationUserCreatedBy { get; set; }
 
         [Display(Name = "Updated Date")]
@@ -81,6 +87,7 @@ namespace PremierKitchensDB.Models
         public string UpdatedBy { get; set; }
         [ForeignKey("UpdatedBy")]
         [JsonIgnore]
+        [Display(Name = "Updated By")]
         public ApplicationUser ApplicationUserUpdatedBy { get; set; }
 
         public Showroom Showroom { get; set; }

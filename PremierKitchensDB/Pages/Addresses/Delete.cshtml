@@ -11,102 +11,70 @@
 <div class="col-md" id="AddressForm">
     <h4>@Html.DisplayNameFor(model => model.Address.Address1)</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class="col-md-6">
             @Html.DisplayNameFor(model => model.Address.Address1)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.Address1)
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.Address1)<br />
+            @Html.DisplayFor(model => model.Address.Address2)<br />
+            @Html.DisplayFor(model => model.Address.Address3)<br />
+            @Html.DisplayFor(model => model.Address.Address4)<br />
+            @Html.DisplayFor(model => model.Address.PostcodeOut) @Html.DisplayFor(model => model.Address.PostcodeIn)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.Address2)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.Address2)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.Address3)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.Address3)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.Address4)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.Address4)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.PostcodeOut)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.PostcodeOut)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.PostcodeIn)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.PostcodeIn)
-        </dd>
-        <dt>
+        <dt class="col-md-6">
             @Html.DisplayNameFor(model => model.Address.HomePhone)
         </dt>
-        <dd>
+        <dd class="col-md-6">
             @Html.DisplayFor(model => model.Address.HomePhone)
         </dd>
-        <dt>
+        <dt class="col-md-6">
             @Html.DisplayNameFor(model => model.Address.DateFrom)
         </dt>
-        <dd>
+        <dd class="col-md-6">
             @Html.DisplayFor(model => model.Address.DateFrom)
         </dd>
-        <dt>
+        <dt class="col-md-6">
             @Html.DisplayNameFor(model => model.Address.DateTo)
         </dt>
-        <dd>
+        <dd class="col-md-6">
             @Html.DisplayFor(model => model.Address.DateTo)
         </dd>
-        <dt>
+        <dt class="col-md-6">
             @Html.DisplayNameFor(model => model.Address.IsPrimary)
         </dt>
-        <dd>
+        <dd class="col-md-6">
             @Html.DisplayFor(model => model.Address.IsPrimary)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.CreatedDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.CreatedDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.ApplicationUserCreatedBy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.ApplicationUserCreatedBy.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.UpdatedDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.UpdatedDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.ApplicationUserUpdatedBy)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.ApplicationUserUpdatedBy.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address.Customer)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.Customer.Forename)
-        </dd>
-        <dt>
+        <dt class="col-md-6">
             @Html.DisplayNameFor(model => model.Address.AddressType)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address.AddressType.AddressTypeID)
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.AddressType.AddressTypeName)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.CreatedDate)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.CreatedDate)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.ApplicationUserCreatedBy)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.ApplicationUserCreatedBy.Forename) @Html.DisplayFor(model => model.Address.ApplicationUserCreatedBy.Surname)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.UpdatedDate)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.UpdatedDate)
+        </dd>
+        <dt class="col-md-6">
+            @Html.DisplayNameFor(model => model.Address.ApplicationUserUpdatedBy)
+        </dt>
+        <dd class="col-md-6">
+            @Html.DisplayFor(model => model.Address.ApplicationUserUpdatedBy.Forename) @Html.DisplayFor(model => model.Address.ApplicationUserUpdatedBy.Surname)
         </dd>
     </dl>
 

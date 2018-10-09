@@ -71,13 +71,14 @@ namespace PremierKitchensDB.Models
         public string Areas { get; set; }
 
         [Display(Name = "Source of Info")]
-        public int SourceOfInformationID { get; set; }
+        public int? SourceOfInformationID { get; set; }
 
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; }
 
         public string CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
+        [Display(Name = "Created By")]
         public ApplicationUser ApplicationUserCreatedBy { get; set; }
 
         [Display(Name = "Updated Date")]
@@ -85,6 +86,7 @@ namespace PremierKitchensDB.Models
 
         public string UpdatedBy { get; set; }
         [ForeignKey("UpdatedBy")]
+        [Display(Name = "Updated By")]
         public ApplicationUser ApplicationUserUpdatedBy { get; set; }
 
         public Showroom Showroom { get; set; }

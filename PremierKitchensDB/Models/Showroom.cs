@@ -19,6 +19,7 @@ namespace PremierKitchensDB.Models
 
         public string CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
+        [Display(Name = "Created By")]
         public ApplicationUser ApplicationUserCreatedBy { get; set; }
 
         [Display(Name = "Updated Date")]
@@ -28,6 +29,7 @@ namespace PremierKitchensDB.Models
 
         public string UpdatedBy { get; set; }
         [ForeignKey("UpdatedBy")]
+        [Display(Name = "Updated By")]
         public ApplicationUser ApplicationUserUpdatedBy { get; set; }
 
         public ICollection<Customer> Customer { get; set; }

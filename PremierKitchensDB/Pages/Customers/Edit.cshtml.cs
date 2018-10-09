@@ -53,6 +53,7 @@ namespace PremierKitchensDB.Pages.Customers
             ViewData["TitleID"] = new SelectList(_context.Lookup.Where(L => L.Domain == "TITLE"), "LookupCode", "LookupName");
             ViewData["ShowroomID"] = new SelectList(_context.Showroom, "ShowroomID", "ShowroomName");
             ViewData["SourceOfInformationID"] = new SelectList(_context.SourceOfInformation, "SourceOfInformationID", "SourceOfInformationName");
+            
             PopulateCustomerAreaData(_context, Customer);
             return Page();
         }
@@ -74,6 +75,8 @@ namespace PremierKitchensDB.Pages.Customers
             _context.Attach(Customer).State = EntityState.Modified;
 
             //Override values for updated by and date
+            Customer.CreatedBy = originalCustomer.CreatedBy;
+            Customer.CreatedDate = originalCustomer.CreatedDate;
             Customer.UpdatedDate = DateTime.Now;
             Customer.UpdatedBy = Shared.Identity.GetUserId(User, _context);
 

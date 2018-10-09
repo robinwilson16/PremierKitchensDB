@@ -61,7 +61,7 @@
             @Html.DisplayFor(model => model.Customer.CreatedDate)
         </dd>
         <dt class="col-md-6">
-            Created By
+            @Html.DisplayNameFor(model => model.Customer.ApplicationUserCreatedBy)
         </dt>
         <dd class="col-md-6">
             @Html.DisplayFor(model => model.Customer.ApplicationUserCreatedBy.Forename) @Html.DisplayFor(model => model.Customer.ApplicationUserCreatedBy.Surname)
@@ -73,7 +73,7 @@
             @Html.DisplayFor(model => model.Customer.UpdatedDate)
         </dd>
         <dt class="col-md-6">
-            Updated By
+            @Html.DisplayNameFor(model => model.Customer.ApplicationUserUpdatedBy)
         </dt>
         <dd class="col-md-6">
             @Html.DisplayFor(model => model.Customer.ApplicationUserUpdatedBy.Forename) @Html.DisplayFor(model => model.Customer.ApplicationUserUpdatedBy.Surname)

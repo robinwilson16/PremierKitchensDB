@@ -65,6 +65,8 @@ namespace PremierKitchensDB.Pages.Addresses
             _context.Attach(Address).State = EntityState.Modified;
 
             //Override values for updated by and date
+            Address.CreatedBy = originalAddress.CreatedBy;
+            Address.CreatedDate = originalAddress.CreatedDate;
             Address.UpdatedDate = DateTime.Now;
             Address.UpdatedBy = Shared.Identity.GetUserId(User, _context);
 

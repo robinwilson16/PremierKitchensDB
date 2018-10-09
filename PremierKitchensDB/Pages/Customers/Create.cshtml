@@ -68,9 +68,9 @@
                         <label asp-for="Customer.Title" class="col-sm-4 col-form-label"></label>
                         <div class="col-sm-8">
                             <select asp-for="Customer.Title" class="form-control" asp-items="ViewBag.TitleID">
-                                <option selected>Please select...</option>
+                                <option value="" hidden disabled selected>Please select...</option>
                             </select>
-                            <span asp-validation-for="Customer.Title" class="text-danger"></span>
+                            <span asp-validation-for="Customer.Title" class="text-danger">fgfdgggf</span>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                     <div class="form-group row">
                         <label asp-for="Customer.DateOfEnquiry" class="col-sm-4 col-form-label"></label>
                         <div class="col-sm-8">
-                            <input asp-for="Customer.DateOfEnquiry" class="form-control" />
+                            <input asp-for="Customer.DateOfEnquiry" class="form-control" value="@ViewBag.DateOfEnquiry" />
                             <span asp-validation-for="Customer.DateOfEnquiry" class="text-danger"></span>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
                         <label asp-for="Customer.ShowroomID" class="col-sm-4 col-form-label"></label>
                         <div class="col-sm-8">
                             <select asp-for="Customer.ShowroomID" class="form-control" asp-items="ViewBag.ShowroomID">
-                                <option selected>Please select...</option>
+                                <option value="" hidden disabled selected>Please select...</option>
                             </select>
                             <span asp-validation-for="Customer.ShowroomID" class="text-danger"></span>
                         </div>
@@ -204,7 +204,7 @@
                         <label asp-for="Customer.SourceOfInformationID" class="col-sm-4 col-form-label"></label>
                         <div class="col-sm-8">
                             <select asp-for="Customer.SourceOfInformationID" class="form-control" asp-items="ViewBag.SourceOfInformationID">
-                                <option selected>Please select...</option>
+                                <option value="" hidden disabled selected>Please select...</option>
                             </select>
                             <span asp-validation-for="Customer.SourceOfInformationID" class="text-danger"></span>
                         </div>

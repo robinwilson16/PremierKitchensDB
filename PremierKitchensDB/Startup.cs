@@ -13,6 +13,7 @@ using PremierKitchensDB.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PremierKitchensDB.Models;
+using System.Globalization;
 
 namespace PremierKitchensDB
 {
@@ -79,6 +80,13 @@ namespace PremierKitchensDB
             app.UseAuthentication();
 
             app.UseMvc();
+
+            //Ensure currencies and dates are set to GB
+            var cultureInfo = new CultureInfo("en-GB");
+            //cultureInfo.NumberFormat.CurrencySymbol = "€";
+
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             CreateUsers.Initialize(context, userManager, roleManager, configuration).Wait();// seed here
             DbInitializer.Initialize(context, userManager, roleManager, configuration).Wait();// seed here

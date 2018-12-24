@@ -6,9 +6,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using PremierKitchensDB.Data;
 using PremierKitchensDB.Models;
 
@@ -21,7 +24,7 @@ namespace PremierKitchensDB.Pages.Customers
 
         public IndexModel(PremierKitchensDB.Data.ApplicationDbContext context)
         {
-            _context = context; 
+            _context = context;
         }
 
         public IList<GetCustomerList> GetCustomerList { get; set; }
@@ -132,6 +135,11 @@ namespace PremierKitchensDB.Pages.Customers
             GetCustomerList = await _context.GetCustomerList
                 .FromSql("EXEC sp_GetCustomerList @SearchString, @SortString", searchParam, sortParam)
                 .ToListAsync();
+
+            var collectionWrapper = new
+            {
+                Customers = GetCustomerList
+            };
 
             return new JsonResult(GetCustomerList);
         }
@@ -276,10 +284,10 @@ namespace PremierKitchensDB.Pages.Customers
                         //Replace any commas back if previously converted to |
                         val = val.Replace("|", ",");
 
-                        //If number then remove commas and pound sign
+                        //If number then remove commas and pound sign - if it starts with 0 then treat as text though
                         val = val.Replace("£", "");
                         int valInt;
-                        if (int.TryParse(val, NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out valInt))
+                        if (int.TryParse(val, NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out valInt) && val.Substring(0,1) != "0")
                         {
                             val = valInt.ToString();
                         }
@@ -310,7 +318,8 @@ namespace PremierKitchensDB.Pages.Customers
                         }
                         else
                         {
-                            if (!Regex.IsMatch(val, @"^\d+$"))
+                            //If not a number then enclose with quote marks - if value starts with "0" then treat as text
+                            if (!Regex.IsMatch(val, @"^\d+$") || val.Substring(0, 1) == "0")
                             {
                                 val = "'" + val + "'";
                             }
@@ -319,7 +328,9 @@ namespace PremierKitchensDB.Pages.Customers
                         //Replace comparison symbols
                         comp = comp.Replace("NEQ", " <> ");
                         comp = comp.Replace("EQ", " = ");
+                        comp = comp.Replace("GTE", " >= ");
                         comp = comp.Replace("GT", " > ");
+                        comp = comp.Replace("LTE", " <= ");
                         comp = comp.Replace("LT", " < ");
                         comp = comp.Replace("LKB", " LIKE ");
                         comp = comp.Replace("LKE", " LIKE ");
@@ -470,6 +481,22 @@ namespace PremierKitchensDB.Pages.Customers
                         else if (comp == "LKE")
                         {
                             val = " end with '" + val + "'";
+                        }
+                        else if (comp == "GTE")
+                        {
+                            val = " is greater than or equal to '" + val + "'";
+                        }
+                        else if (comp == "GT")
+                        {
+                            val = " is greater than '" + val + "'";
+                        }
+                        else if (comp == "LTE")
+                        {
+                            val = " is less than or equal to '" + val + "'";
+                        }
+                        else if (comp == "LT")
+                        {
+                            val = " is less than '" + val + "'";
                         }
                         else
                         {

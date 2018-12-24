@@ -1,4 +1,29 @@
-﻿function doModal(title, text) {
+﻿$(".DatabaseSelector").change(function (event) {
+    var systemDatabase = $(this).val();
+    setCookie("SystemDatabase", systemDatabase, 14);
+});
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; path=/; " + expires;
+}
+
+function formatMoney(num, rnd, symb, decimalSep, thousSep) {
+    rnd = isNaN(rnd = Math.abs(rnd)) ? 2 : rnd;
+    symb = symb === undefined ? "." : symb;
+    decimalSep = decimalSep === undefined ? "." : decimalSep;
+    thousSep = thousSep === undefined ? "," : thousSep;
+
+    var s = num < 0 ? "-" : "";
+    var i = String(parseInt(num = Math.abs(Number(num) || 0).toFixed(rnd)));
+    var j = (j = i.length) > 3 ? j % 3 : 0;
+
+    return s + symb + (j ? i.substr(0, j) + thousSep : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousSep) + (rnd ? decimalSep + Math.abs(num - i).toFixed(rnd).slice(2) : "");
+}
+
+function doModal(title, text) {
     console.log(text);
 
     html = '<div id="dynamicModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirm-modal" aria-hidden="true">';

@@ -3,9 +3,6 @@ $(function () {
     $("[data-toggle=popover]").popover();
 });
 
-//Load in functionality for customer list
-loadList("CustomerListArea", "Customers", "", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID");
-
 //Attach events to buttons
 $(".SaveCustomerButton").click(function (event) {
     $("#CustomerFormFields").submit();
@@ -77,27 +74,21 @@ $("#customerModal").on("shown.bs.modal", function () {
     //Set form title back to blank to default to new recond functionality
     $("#FormTitleID").val("");
 
-    loadInputForm("CustomerDetails", "CustomerListArea", "Customers", customerID, "", "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID", true, "customerModal");
-    loadList("AddressListArea", "Addresses", customerID, "AddressList", "", "OpenAddressButton", "4", "asc", "AddressID");
-    loadList("NoteListArea", "Notes", customerID, "NoteList", "", "OpenNoteButton", "3", "desc", "NoteID");
+    loadInputForm("CustomerDetails", "CustomerListArea", "Customers", customerID, customerID, "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID", true, "customerModal");
+    loadList("AddressListArea", "Addresses", "Index", customerID, "AddressList", "", "OpenAddressButton", "4", "asc", "AddressID");
+    loadList("NoteListArea", "Notes", "Index", customerID, "NoteList", "", "OpenNoteButton", "3", "desc", "NoteID");
+
+    showCustomerAlerts(customerID);
 });
 
 $("#customerModal").on("hidden.bs.modal", function () {
-    $("#CustomerDetails").html($("#LoadingHTML").html());
-    $("#AddressListArea").html($("#LoadingHTML").html());
-    $("#NoteListArea").html($("#LoadingHTML").html());
-
     $("#CustomerTabs a:first").tab("show");
 });
 
 $("#deleteCustomerModal").on("shown.bs.modal", function () {
     var customerID = $("#CustomerID").val();
 
-    loadDeleteForm("DeleteCustomerDetails", "CustomerListArea", "Customers", customerID, "", "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID", true, "customerModal");
-});
-
-$("#deleteCustomerModal").on("hidden.bs.modal", function () {
-    $("#DeleteCustomerDetails").html($("#LoadingHTML").html());
+    loadDeleteForm("DeleteCustomerDetails", "CustomerListArea", "Customers", customerID, customerID, "CustomerForm", "CustomerFormFields", "CustomerList", getSearchParams(), "OpenCustomerButton", "3", "asc", "CustomerID", true, "customerModal");
 });
 
 $("#addressModal").on("shown.bs.modal", function () {
@@ -143,19 +134,11 @@ function showAddressModal(customerID, addressID, formTitle) {
     loadInputForm("AddressDetails", "AddressListArea", "Addresses", addressID, customerID, "AddressForm", "AddressFormFields", "AddressList", "", "OpenAddressButton", "4", "asc", "AddressID", true, "addressModal");
 }
 
-$("#addressModal").on("hidden.bs.modal", function () {
-    $("#AddressDetails").html($("#LoadingHTML").html());
-});
-
 $("#deleteAddressModal").on("shown.bs.modal", function () {
     var customerID = $("#CustomerID").val();
     var addressID = $("#AddressID").val();
 
     loadDeleteForm("DeleteAddressDetails", "AddressListArea", "Addresses", addressID, customerID, "AddressForm", "AddressFormFields", "AddressList", "", "OpenAddressButton", "4", "asc", "AddressID", true, "addressModal");
-});
-
-$("#deleteAddressModal").on("hidden.bs.modal", function () {
-    $("#DeleteAddressDetails").html($("#LoadingHTML").html());
 });
 
 $("#noteModal").on("shown.bs.modal", function () {
@@ -201,10 +184,6 @@ function showNoteModal(customerID, noteID, formTitle) {
     loadInputForm("NoteDetails", "NoteListArea", "Notes", noteID, customerID, "NoteForm", "NoteFormFields", "NoteList", "", "OpenNoteButton", "3", "desc", "NoteID", true, "noteModal");
 }
 
-$("#noteModal").on("hidden.bs.modal", function () {
-    $("#NoteDetails").html($("#LoadingHTML").html());
-});
-
 $("#deleteNoteModal").on("shown.bs.modal", function () {
     var customerID = $("#CustomerID").val();
     var noteID = $("#NoteID").val();
@@ -212,19 +191,18 @@ $("#deleteNoteModal").on("shown.bs.modal", function () {
     loadDeleteForm("DeleteNoteDetails", "NoteListArea", "Notes", noteID, customerID, "NoteForm", "NoteFormFields", "NoteList", "", "OpenNoteButton", "3", "desc", "NoteID", true, "noteModal");
 });
 
-$("#deleteNoteModal").on("hidden.bs.modal", function () {
-    $("#DeleteNoteDetails").html($("#LoadingHTML").html());
-});
-
 $("#auditModal").on("shown.bs.modal", function () {
     var AuditRecordID = $("#AuditRecordID").val();
     var AuditTable = $("#AuditTable").val();
 
-    loadList("AuditListArea", "AuditTrails", AuditTable + "/" + AuditRecordID, "AuditTrailsList", "", "OpenAuditButton", "1", "desc", "");
+    loadList("AuditListArea", "AuditTrails", "Index", AuditTable + "/" + AuditRecordID, "AuditList", "", "OpenAuditButton", "1", "desc", "");
 });
 
-$("#auditModal").on("hidden.bs.modal", function () {
-    $("#AuditListArea").html($("#LoadingHTML").html());
+$("#customerHistoryModal").on("shown.bs.modal", function () {
+    var AuditTable = "Customer";
+    var UserID = $("#UserID").val();
+
+    loadList("CustomerHistoryListArea", "AuditTrails", "History", "History/" + AuditTable + "/" + UserID, "CustomerHistoryList", "", "OpenCustomerButton", "1", "desc", "CustomerID");
 });
 
 $(".CustomerQuickSearch").keypress(function (event) {
@@ -246,4 +224,742 @@ $(".CustomerQuickSearchButton").click(function (event) {
 function doQuickSearch(val) {
     $("#FilterQuery").val("C.Surname,LK," + val + "!~C.Forename,LK," + val + "!~C.CustomerID,LK," + val);
     $("#doSearch").submit();
+}
+
+function showCustomerAlerts(customerID) {
+    var alertsToLoad = "/Notes/" + customerID + "/?handler=Json&alertOnly=true";
+
+    var loadAlerts = $.get(alertsToLoad, function (data) {
+        //Show any alerts from the remote page
+        var alertHtml = "";
+        for (var key in data) {
+            if (data[key].noteText !== null) {
+                alertHtml += "<p>" + data[key].noteText + "</p>";
+            }
+        }
+
+        if (alertHtml !== "") {
+            doModal("Customer Alerts", alertHtml);
+        }
+
+        console.log(alertsToLoad + " Loaded");
+    });
+    loadAlerts.fail(function () {
+        doErrorModal("Error Loading " + alertsToLoad, "The list at " + alertsToLoad + " returned a server error and could not be loaded");
+    });
+}
+
+$(function () {
+    $.extend($.fn.dataTable.defaults, {
+        language: {
+            processing: '<div class="col text-center LoadingArea"><i class="fas fa-spinner fa-spin"></i></div>'
+        }
+    });
+
+    var searchParams = $("#FilterQuery").val();
+
+    $('#CustomerList').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        buttons: [
+            {
+                extend: 'colvis',
+                text: '<i class="fas fa-columns"></i> Columns'
+            },
+            {
+                extend: 'copyHtml5',
+                text: '<i class="far fa-copy"></i> Copy',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="far fa-file-excel"></i> Excel',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: '<i class="fas fa-file-csv"></i> CSV',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="far fa-file-pdf"></i> PDF',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ],
+        processing: true,
+        serverSide: false,
+        colReorder: true,
+        ajax: { url: "/Customers/?handler=Json&search=" + searchParams, dataSrc: "" },
+        columns: [
+            {
+                data: {
+                    _: "customerID",
+                    sort: "customerID",
+                    filter: "customerID",
+                    display: cusOpenCustomer
+                }
+            },
+            {
+                data: {
+                    _: "customerID",
+                    sort: "customerID",
+                    filter: "customerID",
+                    display: cusCustomerPhoto
+                }
+            },
+            {
+                data: {
+                    _: "customerID",
+                    sort: "customerID",
+                    filter: "customerID",
+                    display: cusCustomerID
+                }
+            },
+            {
+                data: {
+                    _: "surname",
+                    sort: "surname",
+                    filter: "surname",
+                    display: cusSurname
+                }
+            },
+            {
+                data: {
+                    _: "forename",
+                    sort: "forename",
+                    filter: "forename",
+                    display: cusForename
+                }
+            },
+            {
+                data: {
+                    _: "title",
+                    sort: "title",
+                    filter: "title",
+                    display: cusTitle
+                }
+            },
+            {
+                data: {
+                    _: "email",
+                    sort: "email",
+                    filter: "email",
+                    display: cusEmail
+                }
+            },
+            {
+                data: {
+                    _: "mobilePhone",
+                    sort: "mobilePhone",
+                    filter: "mobilePhone",
+                    display: cusMobilePhone
+                }
+            },
+            {
+                data: {
+                    _: "workPhone",
+                    sort: "workPhone",
+                    filter: "workPhone",
+                    display: cusWorkPhone
+                }
+            },
+            {
+                data: {
+                    _: "canBeContacted",
+                    sort: "canBeContacted",
+                    filter: "canBeContacted",
+                    display: cusCanBeContacted
+                }
+            },
+            {
+                data: {
+                    _: "areas",
+                    sort: "areas",
+                    filter: "areas",
+                    display: cusAreas
+                }
+            },
+            {
+                data: {
+                    _: "orderValue",
+                    sort: "orderValue",
+                    filter: "orderValue",
+                    display: cusOrderValue
+                }
+            },
+            {
+                data: {
+                    _: "hasOutstandingRemedialWork",
+                    sort: "hasOutstandingRemedialWork",
+                    filter: "hasOutstandingRemedialWork",
+                    display: cusHasOutstandingRemedialWork
+                }
+            },
+            {
+                data: {
+                    _: "showroomName",
+                    sort: "showroomName",
+                    filter: "showroomName",
+                    display: cusShowroomName
+                }
+            },
+            {
+                data: {
+                    _: "dateOfEnquiry",
+                    sort: "dateOfEnquiry",
+                    filter: "dateOfEnquiry",
+                    display: cusDateOfEnquiry
+                }
+            }
+        ],
+        order: [[3, "asc"], [4, "asc"], [2, "asc"]]
+    });
+
+    $('#AddressList').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        buttons: [
+            {
+                extend: 'colvis',
+                text: '<i class="fas fa-columns"></i> Columns'
+            },
+            {
+                extend: 'copyHtml5',
+                text: '<i class="far fa-copy"></i> Copy',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="far fa-file-excel"></i> Excel',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: '<i class="fas fa-file-csv"></i> CSV',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="far fa-file-pdf"></i> PDF',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ],
+        processing: true,
+        serverSide: false,
+        colReorder: true,
+        ajax: { url: "/Addresses/0/?handler=Json", dataSrc: "" },
+        columns: [
+            {
+                data: {
+                    _: "addressID",
+                    sort: "addressID",
+                    filter: "addressID",
+                    display: adrOpenAddress
+                }
+            },
+            {
+                data: {
+                    _: "address1",
+                    sort: "address1",
+                    filter: "address1",
+                    display: adrAddress
+                }
+            },
+            {
+                data: {
+                    _: "postcodeOut",
+                    sort: "postcodeOut",
+                    filter: "postcodeOut",
+                    display: adrPostCode
+                }
+            },
+            {
+                data: "homePhone"
+            },
+            {
+                data: {
+                    _: "dateFrom",
+                    sort: "dateFrom",
+                    filter: "dateFrom",
+                    display: adrDateFrom
+                }
+            },
+            {
+                data: {
+                    _: "dateTo",
+                    sort: "dateTo",
+                    filter: "dateTo",
+                    display: adrDateTo
+                }
+            },
+            {
+                data: {
+                    _: "isPrimary",
+                    sort: "isPrimary",
+                    filter: "isPrimary",
+                    display: adrIsPrimary
+                }
+            },
+            {
+                data: "addressType.addressTypeName"
+            }
+        ],
+        order: [[3, "asc"], [4, "asc"], [2, "asc"]]
+    });
+
+    $('#NoteList').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        buttons: [
+            {
+                extend: 'colvis',
+                text: '<i class="fas fa-columns"></i> Columns'
+            },
+            {
+                extend: 'copyHtml5',
+                text: '<i class="far fa-copy"></i> Copy',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="far fa-file-excel"></i> Excel',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: '<i class="fas fa-file-csv"></i> CSV',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="far fa-file-pdf"></i> PDF',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ],
+        processing: true,
+        serverSide: false,
+        colReorder: true,
+        ajax: { url: "/Notes/0/?handler=Json", dataSrc: "" },
+        columns: [
+            {
+                data: {
+                    _: "noteID",
+                    sort: "noteID",
+                    filter: "noteID",
+                    display: notOpenNote
+                }
+            },
+            {
+                data: "noteText"
+            },
+            {
+                data: {
+                    _: "isAlert",
+                    sort: "isAlert",
+                    filter: "isAlert",
+                    display: notIsAlert
+                }
+            },
+            {
+                data: {
+                    _: "createdDate",
+                    sort: "createdDate",
+                    filter: "createdDate",
+                    display: notCreatedDate
+                }
+            }
+        ],
+        order: [[1, "asc"], [2, "asc"]]
+    });
+
+    $('#AuditList').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        buttons: [
+            {
+                extend: 'colvis',
+                text: '<i class="fas fa-columns"></i> Columns'
+            },
+            {
+                extend: 'copyHtml5',
+                text: '<i class="far fa-copy"></i> Copy',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="far fa-file-excel"></i> Excel',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: '<i class="fas fa-file-csv"></i> CSV',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="far fa-file-pdf"></i> PDF',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ],
+        processing: true,
+        serverSide: false,
+        colReorder: true,
+        ajax: { url: "/AuditTrails/none/?handler=Json", dataSrc: "" },
+        columns: [
+            {
+                data: "changeInfo"
+            },
+            {
+                data: {
+                    _: "updatedDate",
+                    sort: "updatedDate",
+                    filter: "updatedDate",
+                    display: audUpdatedDate
+                }
+            },
+            {
+                data: {
+                    _: "applicationUserUpdatedBy.forename",
+                    sort: "applicationUserUpdatedBy.forename",
+                    filter: "applicationUserUpdatedBy.forename",
+                    display: audUpdatedBy
+                }
+            }
+        ],
+        order: [[1, "desc"]]
+    });
+
+    $('#CustomerHistoryList').DataTable({
+        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+        buttons: [
+            {
+                extend: 'colvis',
+                text: '<i class="fas fa-columns"></i> Columns'
+            },
+            {
+                extend: 'copyHtml5',
+                text: '<i class="far fa-copy"></i> Copy',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="far fa-file-excel"></i> Excel',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                text: '<i class="fas fa-file-csv"></i> CSV',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="far fa-file-pdf"></i> PDF',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Print',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ],
+        processing: true,
+        serverSide: false,
+        colReorder: true,
+        ajax: { url: "/AuditTrails/History/Customer/none/?handler=Json", dataSrc: "" },
+        columns: [
+            {
+                data: {
+                    _: "auditTrailID",
+                    sort: "auditTrailID",
+                    filter: "auditTrailID",
+                    display: hisOpenCustomer
+                }
+            },
+            {
+                data: "changeInfo"
+            },
+            {
+                data: {
+                    _: "updatedDate",
+                    sort: "updatedDate",
+                    filter: "updatedDate",
+                    display: hisUpdatedDate
+                }
+            }
+        ],
+        order: [[1, "desc"]]
+    });
+});
+
+$('#CustomerList').on('draw.dt', function () {
+    //Need to do this every time the table is manipulated otherwise it does not apply
+    attachListFunctions(
+        "OpenCustomerButton",
+        "CustomerID"
+    );
+});
+
+$('#AddressList').on('draw.dt', function () {
+    attachListFunctions(
+        "OpenAddressButton",
+        "AddressID"
+    );
+});
+
+$('#NoteList').on('draw.dt', function () {
+    attachListFunctions(
+        "OpenNoteButton",
+        "NoteID"
+    );
+});
+
+$('#CustomerHistoryList').on('draw.dt', function () {
+    attachListFunctions(
+        "OpenCustomerButton",
+        "CustomerID"
+    );
+});
+
+function cusOpenCustomer(data, type, dataToSet) {
+    return `<button type="button" class="btn btn-secondary OpenCustomerButton" data-toggle="modal" data-id="${data.customerID}" data-target="#customerModal" data-loading-text="Record for ${data.forename} ${data.surname}">
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>`;
+}
+
+function cusCustomerPhoto(data, type, dataToSet) {
+    return `<div class="ProfileIconSmall" style="background-color: ${stringToColour(data.forename + data.surname)};">
+                        ${getInitials(data.forename, data.surname)}
+                    </div>`;
+}
+
+function cusCustomerID(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.CustomerID" aria-label="CustomerList">
+                        ${data.customerID}
+                    </a>`;
+}
+
+function cusSurname(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.Surname" aria-label="CustomerList">
+                        ${noNulls(data.surname)}
+                    </a>`;
+}
+
+function cusForename(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.Forename" aria-label="CustomerList">
+                        ${noNulls(data.forename)}
+                    </a>`;
+}
+
+function cusTitle(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.Title" aria-label="CustomerList">
+                        ${noNulls(data.title)}
+                    </a>`;
+}
+
+function cusEmail(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.Email" aria-label="CustomerList">
+                        ${noNulls(data.email)}
+                    </a>`;
+}
+
+function cusMobilePhone(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.MobilePhone" aria-label="CustomerList">
+                        ${noNulls(data.mobilePhone)}
+                    </a>`;
+}
+
+function cusWorkPhone(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.WorkPhone" aria-label="CustomerList">
+                        ${noNulls(data.workPhone)}
+                    </a>`;
+}
+
+function cusCanBeContacted(data, type, dataToSet) {
+    var isChecked = '';
+    if (data.canBeContacted === true) {
+        isChecked = 'checked ';
+    }
+    return `<a tabindex="0" role="button" href="#" target="C.CanBeContacted" aria-label="CustomerList">
+                        <input class="check-box" disabled="disabled" type="checkbox" disabled ${isChecked} />
+                    </a>`;
+}
+
+function cusAreas(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="CA.Areas" aria-label="CustomerList">
+                        ${noNulls(data.areas)}
+                    </a>`;
+}
+
+function cusOrderValue(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.OrderValue" aria-label="CustomerList">
+                        ${formatMoney(data.orderValue, 0, "£")}
+                    </a>`;
+}
+
+function cusHasOutstandingRemedialWork(data, type, dataToSet) {
+    var isChecked = '';
+    if (data.hasOutstandingRemedialWork === true) {
+        isChecked = 'checked ';
+    }
+    return `<a tabindex="0" role="button" href="#" target="C.HasOutstandingRemedialWork" aria-label="CustomerList">
+                        <input class="check-box" disabled="disabled" type="checkbox" disabled ${isChecked} />
+                    </a>`;
+}
+
+function cusShowroomName(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="S.ShowroomName" aria-label="CustomerList">
+                        ${noNulls(data.showroomName)}
+                    </a>`;
+}
+
+function cusDateOfEnquiry(data, type, dataToSet) {
+    return `<a tabindex="0" role="button" href="#" target="C.DateOfEnquiry" aria-label="CustomerList">
+                        ${moment(data.dateOfEnquiry).format('DD MMM YY')}
+                    </a>`;
+}
+
+function adrOpenAddress(data, type, dataToSet) {
+    return `<button type="button" class="btn btn-secondary OpenAddressButton" data-toggle="modal" data-id="${data.addressID}" data-target="#addressModal" data-loading-text="Address at ${data.address1}">
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>`;
+}
+
+function adrAddress(data, type, dataToSet) {
+    return `${BRs(data.address1)}
+                    ${BRs(data.address2)}
+                    ${BRs(data.address3)}
+                    ${BRs(data.address4)}`;
+}
+
+function adrPostCode(data, type, dataToSet) {
+    if (data.postcodeOut !== null) {
+        return `${BRs(data.postcodeOut)} ${BRs(data.postcodeIn)}`;
+    }
+    else {
+        return ``;
+    }
+}
+
+function adrDateFrom(data, type, dataToSet) {
+    return `${moment(data.dateFrom).format('DD MMM YY')}`;
+}
+
+function adrDateTo(data, type, dataToSet) {
+    if (data.dateTo !== null) {
+        return `${moment(data.dateTo).format('DD MMM YY')}`;
+    }
+    else {
+        return ``;
+    }
+}
+
+function adrIsPrimary(data, type, dataToSet) {
+    var isChecked = '';
+    if (data.isPrimary === true) {
+        isChecked = 'checked ';
+    }
+    return `<input class="check-box" disabled="disabled" type="checkbox" disabled ${isChecked} />`;
+}
+
+function notOpenNote(data, type, dataToSet) {
+    return `<button type="button" class="btn btn-secondary OpenNoteButton" data-toggle="modal" data-id="${data.noteID}" data-target="#noteModal" data-loading-text="Note created on ${data.createdDate}">
+                        <i class="fas fa-external-link-alt"></i>
+                    </button>`;
+}
+
+function notIsAlert(data, type, dataToSet) {
+    var isChecked = '';
+    if (data.isAlert === true) {
+        isChecked = 'checked ';
+    }
+    return `<input class="check-box" disabled="disabled" type="checkbox" disabled ${isChecked} />`;
+}
+
+function notCreatedDate(data, type, dataToSet) {
+    return `${moment(data.createdDate).format('DD MMM YY HH:MM')}`;
+}
+
+function audUpdatedDate(data, type, dataToSet) {
+    return `${moment(data.updatedDate).format('DD MMM YY HH:MM')}`;
+}
+
+function audUpdatedBy(data, type, dataToSet) {
+    return `${data.applicationUserUpdatedBy.forename} ${data.applicationUserUpdatedBy.surname}`;
+}
+
+function hisOpenCustomer(data, type, dataToSet) {
+    return `<button type="button" class="btn btn-secondary OpenCustomerButton" data-dismiss="modal" data-toggle="modal" data-id="${data.objectID}" data-target="#customerModal" data-loading-text="Record for ${data.changeInfo.replace(" Viewed", "")}">
+                <i class="fas fa-external-link-alt"></i>
+            </button>`;
+}
+
+function hisUpdatedDate(data, type, dataToSet) {
+    return `${moment(data.updatedDate).format('DD MMM YY HH:MM')}`;
 }

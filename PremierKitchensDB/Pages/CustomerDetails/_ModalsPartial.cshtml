@@ -41,9 +41,21 @@
                         <div class="tab-pane fade" id="Addresses-content" role="tabpanel" aria-labelledby="Addresses-tab">
                             <div class="container first">
                                 <div id="AddressListArea" class="row table-responsive">
-                                    <div class="col text-center LoadingArea">
-                                        <i class="fas fa-spinner fa-spin"></i>
-                                    </div>
+                                    <table id="AddressList" class="table table-striped table-bordered dataList" aria-label="Customers" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Address</th>
+                                                <th>Post Code</th>
+                                                <th>Home Phone</th>
+                                                <th>Date From</th>
+                                                <th>Date To</th>
+                                                <th>Is Primary</th>
+                                                <th>Address Type</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                                 <div class="row">
                                     <div class="col">
@@ -57,9 +69,17 @@
                         <div class="tab-pane fade" id="Notes-content" role="tabpanel" aria-labelledby="Notes-tab">
                             <div class="container first">
                                 <div id="NoteListArea" class="row table-responsive">
-                                    <div class="col text-center LoadingArea">
-                                        <i class="fas fa-spinner fa-spin"></i>
-                                    </div>
+                                    <table id="NoteList" class="table table-striped table-bordered dataList" aria-label="Notes" style="width: 100%;">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Note</th>
+                                                <th>Show As Alert?</th>
+                                                <th>Created Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                                 <div class="row">
                                     <div class="col">
@@ -237,7 +257,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning ClearCurrentFiltersButton"><i class="fas fa-eraser"></i> Clear Current Filters</button>
+                <button type="button" class="btn btn-warning ClearCurrentFiltersButton" aria-label="CustomerList" data-dismiss="modal"><i class="fas fa-eraser"></i> Clear Current Filters</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Close</button>
             </div>
         </div>
@@ -255,10 +275,49 @@
             </div>
             <div class="modal-body">
                 <div class="container first">
-                    <div id="AuditListArea" class="row">
-                        <div class="col text-center LoadingArea">
-                            <i class="fas fa-spinner fa-spin"></i>
-                        </div>
+                    <div id="AuditListArea" class="row table-responsive">
+                        <table id="AuditList" class="table table-striped table-bordered dataList" aria-label="AuditTrail" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Changes Made</th>
+                                    <th>Made On</th>
+                                    <th>Made By</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-sign-out-alt"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="customerHistoryModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="customerHistoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerHistoryModalLabel"><i class="fas fa-history"></i> <span class="title">Customer History</span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container first">
+                    <div id="CustomerHistoryListArea" class="row table-responsive">
+                        <table id="CustomerHistoryList" class="table table-striped table-bordered dataList" aria-label="AuditTrail" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Customer Viewed</th>
+                                    <th>Last Viewed On</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>

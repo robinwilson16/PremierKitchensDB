@@ -50,5 +50,34 @@ namespace PremierKitchensDB.Pages.Addresses
 
             Address = await addressIQ.AsNoTracking().ToListAsync();
         }
+
+        public async Task<IActionResult> OnGetJsonAsync(int? id)
+        {
+            IQueryable<Address> addressIQ = from a in _context.Address
+                                            .Include(a => a.AddressType)
+                                            .Include(a => a.ApplicationUserCreatedBy)
+                                            .Include(a => a.ApplicationUserUpdatedBy)
+                                            .Include(a => a.Customer)
+                                            select a;
+
+            if (id > 0)
+            {
+                addressIQ = addressIQ.Where(a => a.CustomerID == id);
+            }
+            else
+            {
+                //If no customer specified then avoid showing all addresses (i.e. for new customer screen)
+                addressIQ = addressIQ.Where(a => a.CustomerID == 0);
+            }
+
+            Address = await addressIQ.AsNoTracking().ToListAsync();
+
+            var collectionWrapper = new
+            {
+                Addresses = Address
+            };
+
+            return new JsonResult(Address);
+        }
     }
 }

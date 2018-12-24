@@ -4,23 +4,60 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md HorSpacing">
-                        <button type="button" class="btn btn-primary btn-block FilterButton" aria-label="EQ"><i class="far fa-eye"></i> Filter By Selection</button>
+                        <button type="button" class="btn btn-success btn-block FilterButton" aria-label="EQ"><i class="far fa-eye"></i> Filter By Selection</button>
+                    </div>
+                </div>
+                <div class="row TextControls">
+                    <div class="col-md HorSpacing">
+                        <span class="InfoNumber">
+                            Enter <kbd>&lt;=</kbd>, <kbd>&lt;</kbd>, <kbd>&gt;=</kbd>, <kbd>&gt;</kbd> for a range
+                        </span>
+                        <span class="InfoText">
+                            Enter <kbd>*</kbd> or <kbd>%</kbd> for partial matches
+                        </span>
+                        <div class="input-group mb-2">
+                            <input type="search" class="form-control FilterSearch" placeholder="Enter criteria..." />
+                            <div class="input-group-append">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-primary DoFilterSearch">Go</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md HorSpacing">
-                        Enter <kbd>*</kbd> or <kbd>%</kbd> for partial matches
-                        <input type="search" class="form-control FilterSearch" placeholder="[Enter criteria, press enter]" />
+                        <button type="button" class="btn btn-warning btn-block FilterButton" aria-label="NEQ"><i class="far fa-eye-slash"></i> Filter Excluding Selection</button>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row ClearFilterControls">
                     <div class="col-md HorSpacing">
-                        <button type="button" class="btn btn-primary btn-block FilterButton" aria-label="NEQ"><i class="far fa-eye-slash"></i> Filter Excluding Selection</button>
+                        <button type="button" class="btn btn-danger btn-block FilterButton" aria-label="X"><i class="fas fa-ban"></i> Remove Filter</button>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row NumberControls">
                     <div class="col-md HorSpacing">
-                        <button type="button" class="btn btn-primary btn-block FilterButton" aria-label="X"><i class="fas fa-ban"></i> Remove Filter</button>
+                        <hr />
+                    </div>
+                </div>
+                <div class="row NumberControls">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-info btn-block FilterButton" aria-label="LT"><i class="fas fa-less-than"></i> Less Than</button>
+                    </div>
+                </div>
+                <div class="row NumberControls">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-info btn-block FilterButton" aria-label="LTE"><i class="fas fa-less-than-equal"></i> Less Than or Equal</button>
+                    </div>
+                </div>
+                <div class="row NumberControls">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-info btn-block FilterButton" aria-label="GT"><i class="fas fa-greater-than"></i> Greater Than</button>
+                    </div>
+                </div>
+                <div class="row NumberControls">
+                    <div class="col-md HorSpacing">
+                        <button type="button" class="btn btn-info btn-block FilterButton" aria-label="GTE"><i class="fas fa-greater-than-equal"></i> Greater Than or Equal</button>
                     </div>
                 </div>
                 <div class="row">
@@ -30,12 +67,12 @@
                 </div>
                 <div class="row">
                     <div class="col-md HorSpacing">
-                        <button type="button" class="btn btn-primary btn-block"><i class="fas fa-sort-alpha-up"></i> Sort Ascending</button>
+                        <button type="button" class="btn btn-primary btn-block SortButton" aria-label="ASC"><i class="fas fa-sort-alpha-up"></i> Sort Ascending</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md HorSpacing">
-                        <button type="button" class="btn btn-primary btn-block"><i class="fas fa-sort-alpha-down"></i> Sort Descending</button>
+                        <button type="button" class="btn btn-primary btn-block SortButton" aria-label="DESC"><i class="fas fa-sort-alpha-down"></i> Sort Descending</button>
                     </div>
                 </div>
             </div>

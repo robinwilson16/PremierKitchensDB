@@ -1,0 +1,65 @@
+INSERT INTO Customer
+(
+	LegacyCustomerID,
+	Surname,
+	Forename,
+	Title,
+	Email,
+	MobilePhone,
+	WorkPhone,
+	OrderValue,
+	CanBeContacted,
+	HasOutstandingRemedialWork,
+	DateOfEnquiry,
+	ShowroomID,
+	SourceOfInformationID,
+	CreatedDate,
+	CreatedBy
+)
+SELECT
+	LegacyCustomerID = U.id,
+	Surname = LEFT ( U.surName, 100 ),
+	Forename = LEFT ( U.firstName, 100 ),
+	Title = LEFT ( COALESCE ( REPLACE ( TIT.titleName, 'Mr &amp; Mrs', 'Mr & Mrs' ), 'Mr' ), 10 ),
+	Email = LEFT ( U.emailAddress, 200 ),
+	MobilePhone = LEFT ( U.telMobile, 20 ),
+	WorkPhone = LEFT ( U.telWork, 20 ),
+	OrderValue = U.orderValue,
+	CanBeContacted = U.canBeContacted,
+	HasOutstandingRemedialWork = U.outstandingWork,
+	DateOfEnquiry = U.dateOfEnquiry,
+	ShowroomID = 
+		CASE
+			WHEN U.showroomID = 1 THEN 3
+			WHEN U.showroomID = 2 THEN 6
+			WHEN U.showroomID = 3 THEN 7
+			WHEN U.showroomID = 7 THEN 8
+			WHEN U.showroomID = 8 THEN 5
+			WHEN U.showroomID = 9 THEN 4
+			WHEN U.showroomID = 10 THEN 2
+			ELSE 1
+		END,
+	SourceOfInformationID = 
+		CASE
+			WHEN SRC.leadSourceID = 1 THEN 5
+			WHEN SRC.leadSourceID = 2 THEN 14
+			WHEN SRC.leadSourceID = 3 THEN 9
+			WHEN SRC.leadSourceID = 4 THEN 10
+			WHEN SRC.leadSourceID = 5 THEN 8
+			WHEN SRC.leadSourceID = 6 THEN 7
+			WHEN SRC.leadSourceID = 7 THEN 13
+			WHEN SRC.leadSourceID = 8 THEN 6
+			WHEN SRC.leadSourceID = 9 THEN 1
+			WHEN SRC.leadSourceID = 10 THEN 3
+			WHEN SRC.leadSourceID = 11 THEN 2
+			WHEN SRC.leadSourceID = 12 THEN 4
+			WHEN SRC.leadSourceID = 13 THEN 11
+			WHEN SRC.leadSourceID = 14 THEN 12
+		END,
+	CreatedDate = GetDate(),
+	CreatedBy = 'e9483193-0ced-4b8c-9eb0-1faad74e9907'
+FROM users U
+LEFT JOIN userTitles TIT
+	ON TIT.titleID = U.titleID
+LEFT JOIN userLeadSources SRC
+	ON SRC.userID = U.id

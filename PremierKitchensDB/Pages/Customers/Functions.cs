@@ -8,8 +8,27 @@ namespace PremierKitchensDB.Pages.Customers
 {
     public class Functions
     {
-        public static string ToASCIIColour(string input)
+        public static string ToASCIIColour(string forename, string surname)
         {
+            string input = "";
+            if (!string.IsNullOrEmpty(forename) && !string.IsNullOrEmpty(surname))
+            {
+                input = forename.Substring(0, 1) + surname.Substring(0, 1);
+            }
+            else if (!string.IsNullOrEmpty(surname))
+            {
+                input = surname.Substring(0, 2);
+            }
+            else if (!string.IsNullOrEmpty(forename))
+            {
+                input = forename.Substring(0, 2);
+            }
+            else
+            {
+                input = "AA";
+            }
+
+
             byte[] array = Encoding.ASCII.GetBytes(input);
 
             string output = "";
@@ -22,6 +41,30 @@ namespace PremierKitchensDB.Pages.Customers
             }
 
             return output;
+
+        }
+
+        public static string GetInitials(string forename, string surname)
+        {
+            string input = "";
+            if (!string.IsNullOrEmpty(forename) && !string.IsNullOrEmpty(surname))
+            {
+                input = forename.Substring(0, 1) + surname.Substring(0, 1);
+            }
+            else if (!string.IsNullOrEmpty(surname))
+            {
+                input = surname.Substring(0, 1);
+            }
+            else if (!string.IsNullOrEmpty(forename))
+            {
+                input = forename.Substring(0, 1);
+            }
+            else
+            {
+                input = "";
+            }
+
+            return input;
 
         }
     }

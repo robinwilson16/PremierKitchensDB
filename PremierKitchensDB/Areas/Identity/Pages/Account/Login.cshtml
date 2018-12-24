@@ -32,6 +32,10 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label asp-for="Input.Database"></label>
+                    <select asp-for="Input.Database" class="form-control DatabaseSelector" asp-items="ViewBag.Database"></select>
+                </div>
+                <div class="form-group">
                     <button type="submit" class="btn btn-default">Log in</button>
                 </div>
                 <div class="form-group">
@@ -76,7 +80,3 @@
         </section>
     </div>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

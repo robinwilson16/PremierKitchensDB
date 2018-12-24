@@ -55,6 +55,9 @@ namespace PremierKitchensDB.Pages.Customers
             ViewData["SourceOfInformationID"] = new SelectList(_context.SourceOfInformation, "SourceOfInformationID", "SourceOfInformationName");
             
             PopulateCustomerAreaData(_context, Customer);
+
+            await Shared.Audit.AddAuditRecord(_context, 'V', "Customer", "CustomerID", Customer.CustomerID, Shared.Identity.GetUserId(User, _context), Customer.Forename + " " + Customer.Surname + " (" + Customer.CustomerID + ") Viewed");
+
             return Page();
         }
 

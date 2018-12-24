@@ -31,5 +31,21 @@ namespace PremierKitchensDB.Pages.AuditTrails
                 .OrderByDescending(a => a.UpdatedDate)
                 .ToListAsync();
         }
+
+        public async Task<IActionResult> OnGetJsonAsync(string tableName, int? id)
+        {
+            AuditTrail = await _context.AuditTrail
+                .Include(a => a.ApplicationUserUpdatedBy)
+                .Where(a => a.TableName.ToString() == tableName && a.ObjectID == id)
+                .OrderByDescending(a => a.UpdatedDate)
+                .ToListAsync();
+
+            var collectionWrapper = new
+            {
+                History = AuditTrail
+            };
+
+            return new JsonResult(AuditTrail);
+        }
     }
 }

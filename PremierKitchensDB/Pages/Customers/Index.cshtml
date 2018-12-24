@@ -1,4 +1,4 @@
-﻿@page
+﻿@page  "{id:int?}"
 @model PremierKitchensDB.Pages.Customers.IndexModel
 
 @{
@@ -12,6 +12,7 @@
                 <div class="row">
                     <div class="col-md">
                         <button type="button" class="btn btn-primary NewCustomerButton" data-toggle="modal" data-target="#customerModal"><i class="fas fa-user-plus"></i> Add New Customer</button>
+                        <button type="button" class="btn btn-secondary CustomerHistoryButton" data-toggle="modal" data-target="#customerHistoryModal"><i class="fas fa-history"></i> History</button>
                         @if (Model.CurrentSearchSQL != "")
                         {
                             @:<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterModal"><i class="fas fa-filter"></i> Filter Applied</button>
@@ -21,12 +22,19 @@
                             @:<button type="button" class="btn btn-secondary ClearSortButton"><i class="fas fa-sort-alpha-down"></i> Clear Sort</button>
                         }
                     </div>
-                    <div class="col-md text-right">
-                        <form method="post">
-                            <input name="search" type="search" class="searchBox CustomerQuickSearch" placeholder="Search..." />
-                            <button type="button" class="btn btn-primary CustomerQuickSearchButton"><i class="fas fa-search"></i> Search</button>
-                        </form>
-                    </div>
+                    @if (Model.CurrentSearchSQL == "")
+                    {
+                        @:
+                        <div class="col-md text-right">
+                            <button type="button" class="btn btn-outline-primary" disabled><i class="fas fa-info-circle"></i> Click/touch a value below to view filtering options</button>
+                        </div>
+                    }
+                    @*<div class="col-md text-right">
+                            <form method="post">
+                                <input name="search" type="search" class="searchBox CustomerQuickSearch" placeholder="Search..." />
+                                <button type="button" class="btn btn-primary CustomerQuickSearchButton"><i class="fas fa-search"></i> Search</button>
+                            </form>
+                        </div>*@
                 </div>
             </div>
 
@@ -46,7 +54,7 @@
                             <th>@Html.DisplayNameFor(model => model.GetCustomerList[0].CanBeContacted)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.GetCustomerList[0].Areas)</th>
                             <th class="d-none d-xl-table-cell">@Html.DisplayNameFor(model => model.GetCustomerList[0].OrderValue)</th>
-                            <th class="d-none d-xl-table-cell">@Html.DisplayNameFor(model => model.GetCustomerList[0].CanBeContacted)</th>
+                            <th class="d-none d-xl-table-cell">@Html.DisplayNameFor(model => model.GetCustomerList[0].HasOutstandingRemedialWork)</th>
                             <th class="d-none d-md-table-cell">@Html.DisplayNameFor(model => model.GetCustomerList[0].ShowroomName)</th>
                             <th class="d-none d-sm-table-cell">@Html.DisplayNameFor(model => model.GetCustomerList[0].DateOfEnquiry)</th>
                         </tr>
@@ -54,86 +62,86 @@
                     <tbody>
                         @foreach (var item in Model.GetCustomerList)
                         {
-                        <tr>
-                            <td>
-                                <button type="button" class="btn btn-secondary OpenCustomerButton" data-toggle="modal" data-id="@item.CustomerID" data-target="#customerModal" data-loading-text="Record for @Html.DisplayFor(modelItem => item.Forename) @Html.DisplayFor(modelItem => item.Surname)">
-                                    <i class="fas fa-external-link-alt"></i>
-                                </button>
-                            </td>
-                            <td>
-                                <div class="ProfileIconSmall" style="background-color: #@Functions.ToASCIIColour(@item.Forename.Substring(0, 1) + @item.Surname.Substring(0, 2));">
-                                    @item.Forename.Substring(0, 1)@item.Surname.Substring(0, 1)
-                                </div>
-                            </td>
-                            <td>
-                                <a tabindex="0" role="button" href="#" target="C.CustomerID">
-                                    @Html.DisplayFor(modelItem => item.CustomerID)
-                                </a>
-                            </td>
-                            <td>
-                                <a tabindex="0" role="button" href="#" target="C.Surname">
-                                    @Html.DisplayFor(modelItem => item.Surname)
-                                </a>
-                            </td>
-                            <td>
-                                <a tabindex="0" role="button" href="#" target="C.Forename">
-                                    @Html.DisplayFor(modelItem => item.Forename)
-                                </a>
-                            </td>
-                            <td>
-                                <a tabindex="0" role="button" href="#" target="C.Title">
-                                    @Html.DisplayFor(modelItem => item.Title)
-                                </a>
-                            </td>
-                            <td class="d-none d-lg-table-cell">
-                                <a tabindex="0" role="button" href="#" target="C.Email">
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </a>
-                            </td>
-                            <td class="d-none d-md-table-cell">
-                                <a tabindex="0" role="button" href="#" target="C.MobilePhone">
-                                    @Html.DisplayFor(modelItem => item.MobilePhone)
-                                </a>
-                            </td>
-                            <td class="d-none d-md-table-cell">
-                                <a tabindex="0" role="button" href="#" target="C.WorkPhone">
-                                    @Html.DisplayFor(modelItem => item.WorkPhone)
-                                </a>
-                            </td>
-                            <td>
-                                <a tabindex="0" role="button" href="#" target="C.CanBeContacted">
-                                    @Html.DisplayFor(modelItem => item.CanBeContacted)
-                                </a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                <a tabindex="0" role="button" href="#" target="CA.Areas">
-                                    @Html.DisplayFor(modelItem => item.Areas)
-                                </a>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <a tabindex="0" role="button" href="#" target="C.OrderValue">
-                                    @Html.DisplayFor(modelItem => item.OrderValue)
-                                </a>
-                            </td>
-                            <td class="d-none d-xl-table-cell">
-                                <a tabindex="0" role="button" href="#" target="C.HasOutstandingRemedialWork">
-                                    @Html.DisplayFor(modelItem => item.HasOutstandingRemedialWork)
-                                </a>
-                            </td>
-                            <td class="d-none d-md-table-cell">
-                                <a tabindex="0" role="button" href="#" target="S.ShowroomName">
-                                    @Html.DisplayFor(modelItem => item.ShowroomName)
-                                </a>
-                            </td>
-                            <td class="d-none d-sm-table-cell">
-                                <a tabindex="0" role="button" href="#" target="C.DateOfEnquiry">
-                                    @if (item.DateOfEnquiry != null)
-                                    {
-                                        @item.DateOfEnquiry.Value.ToString("dd MMM yy")
-                                    }
-                                </a>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>
+                                    <button type="button" class="btn btn-secondary OpenCustomerButton" data-toggle="modal" data-id="@item.CustomerID" data-target="#customerModal" data-loading-text="Record for @Html.DisplayFor(modelItem => item.Forename) @Html.DisplayFor(modelItem => item.Surname)">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="ProfileIconSmall" style="background-color: #@Functions.ToASCIIColour(@item.Forename, @item.Surname);">
+                                        @Functions.GetInitials(@item.Forename, @item.Surname)
+                                    </div>
+                                </td>
+                                <td>
+                                    <a tabindex="0" role="button" href="#" target="C.CustomerID">
+                                        @Html.DisplayFor(modelItem => item.CustomerID)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a tabindex="0" role="button" href="#" target="C.Surname">
+                                        @Html.DisplayFor(modelItem => item.Surname)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a tabindex="0" role="button" href="#" target="C.Forename">
+                                        @Html.DisplayFor(modelItem => item.Forename)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a tabindex="0" role="button" href="#" target="C.Title">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </a>
+                                </td>
+                                <td class="d-none d-lg-table-cell">
+                                    <a tabindex="0" role="button" href="#" target="C.Email">
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </a>
+                                </td>
+                                <td class="d-none d-md-table-cell">
+                                    <a tabindex="0" role="button" href="#" target="C.MobilePhone">
+                                        @Html.DisplayFor(modelItem => item.MobilePhone)
+                                    </a>
+                                </td>
+                                <td class="d-none d-md-table-cell">
+                                    <a tabindex="0" role="button" href="#" target="C.WorkPhone">
+                                        @Html.DisplayFor(modelItem => item.WorkPhone)
+                                    </a>
+                                </td>
+                                <td>
+                                    <a tabindex="0" href="#" target="C.CanBeContacted">
+                                        @Html.DisplayFor(modelItem => item.CanBeContacted)
+                                    </a>
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                    <a tabindex="0" role="button" href="#" target="CA.Areas">
+                                        @Html.DisplayFor(modelItem => item.Areas)
+                                    </a>
+                                </td>
+                                <td class="d-none d-xl-table-cell">
+                                    <a tabindex="0" role="button" href="#" target="C.OrderValue">
+                                        @Html.DisplayFor(modelItem => item.OrderValue)
+                                    </a>
+                                </td>
+                                <td class="d-none d-xl-table-cell">
+                                    <a tabindex="0" href="#" target="C.HasOutstandingRemedialWork">
+                                        @Html.DisplayFor(modelItem => item.HasOutstandingRemedialWork)
+                                    </a>
+                                </td>
+                                <td class="d-none d-md-table-cell">
+                                    <a tabindex="0" role="button" href="#" target="S.ShowroomName">
+                                        @Html.DisplayFor(modelItem => item.ShowroomName)
+                                    </a>
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                    <a tabindex="0" role="button" href="#" target="C.DateOfEnquiry">
+                                        @if (item.DateOfEnquiry != null)
+                                        {
+                                            @item.DateOfEnquiry.Value.ToString("dd MMM yy")
+                                        }
+                                    </a>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -143,6 +151,7 @@
                 <div class="row">
                     <div class="col-md">
                         <button type="button" class="btn btn-primary NewCustomerButton" data-toggle="modal" data-target="#customerModal"><i class="fas fa-user-plus"></i> Add New Customer</button>
+                        <button type="button" class="btn btn-secondary CustomerHistoryButton" data-toggle="modal" data-target="#customerHistoryModal"><i class="fas fa-history"></i> History</button>
                         @if (Model.CurrentSearchSQL != "")
                         {
                             @:<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#filterModal"><i class="fas fa-filter"></i> Filter Applied</button>
@@ -152,10 +161,17 @@
                             @:<button type="button" class="btn btn-secondary ClearSortButton"><i class="fas fa-sort-alpha-down"></i> Clear Sort</button>
                         }
                     </div>
-                    <div class="col-md text-right">
-                        <input type="search" class="searchBox CustomerQuickSearch" placeholder="Search..." />
-                        <button type="button" class="btn btn-primary CustomerQuickSearchButton"><i class="fas fa-search"></i> Search</button>
-                    </div>
+                    @if (Model.CurrentSearchSQL == "")
+                    {
+                        @:
+                        <div class="col-md text-right">
+                            <button type="button" class="btn btn-outline-primary" disabled><i class="fas fa-info-circle"></i> Click/touch a value above to view filtering options</button>
+                        </div>
+                    }
+                    @*<div class="col-md text-right">
+                            <input type="search" class="searchBox CustomerQuickSearch" placeholder="Search..." />
+                            <button type="button" class="btn btn-primary CustomerQuickSearchButton"><i class="fas fa-search"></i> Search</button>
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -164,10 +180,10 @@
 
 @section Scripts
     {
-    <script type="text/javascript">
-     $(function () {
+    <script>
+        $(function () {
 
-         $('#customers-data-table1').DataTable();
-     });
+            $('#customers-data-table1').DataTable();
+        });
     </script>
 }

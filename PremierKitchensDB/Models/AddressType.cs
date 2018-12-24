@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,6 +20,7 @@ namespace PremierKitchensDB.Models
 
         public string CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
+        [JsonIgnore]
         [Display(Name = "Created By")]
         public ApplicationUser ApplicationUserCreatedBy { get; set; }
 
@@ -29,9 +31,11 @@ namespace PremierKitchensDB.Models
 
         public string UpdatedBy { get; set; }
         [ForeignKey("UpdatedBy")]
+        [JsonIgnore]
         [Display(Name = "Updated By")]
         public ApplicationUser ApplicationUserUpdatedBy { get; set; }
 
+        [JsonIgnore]
         public ICollection<Address> Address { get; set; }
     }
 }

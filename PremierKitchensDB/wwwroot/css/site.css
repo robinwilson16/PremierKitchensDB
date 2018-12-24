@@ -28,9 +28,9 @@
     margin-bottom: 8px;
 }
 
-    .dataList th {
-        height: 40px;
-    }
+.dataList th {
+    height: 40px;
+}
 
 .searchBox {
     border: 1px solid #007bff;
@@ -54,6 +54,52 @@
 .dataList th,
 .dataList td {
     padding: 2px;
+}
+
+ul.dt-button-collection {
+    top: -300px !important;
+    height: 300px !important;
+    overflow-y: scroll;
+}
+
+ul.dt-button-collection li a:link,
+ul.dt-button-collection li a:active,
+ul.dt-button-collection li a:visited {
+    background-color: #6c757d;
+    color: #ffffff;
+    display: block;
+    margin: 4px;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+ul.dt-button-collection li a:hover {
+    background-color: #6c757d;
+    color: #ffffff;
+    display: block;
+    margin: 4px;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+ul.dt-button-collection li.active a:link,
+ul.dt-button-collection li.active a:active,
+ul.dt-button-collection li.active a:visited {
+    background-color: #007bff;
+    color: #ffffff;
+    display: block;
+    margin: 4px;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+ul.dt-button-collection li.active a:hover {
+    background-color: #007bff;
+    color: #ffffff;
+    display: block;
+    margin: 4px;
+    padding: 4px;
+    border-radius: 4px;
 }
 
 /*Stop modals from expanding past screen height*/
@@ -90,4 +136,8 @@
     vertical-align: middle;
     font-size: 1em;
     font-weight: bold;
+}
+
+.popover-header > .close {
+    line-height: 0.7 !important;
 }

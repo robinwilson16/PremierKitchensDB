@@ -13,8 +13,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
                 <div class="col-md d-none d-md-block">
-                    <div class="ProfileIcon ProfileIconAnimated" style="background-color: #@Functions.ToASCIIColour(@Model.Customer.Forename.Substring(0, 1) + @Model.Customer.Surname.Substring(0, 2));">
-                        @Model.Customer.Forename.Substring(0, 1)@Model.Customer.Surname.Substring(0, 1)
+                    <div class="ProfileIcon ProfileIconAnimated" style="background-color: #@Functions.ToASCIIColour(@Model.Customer.Forename, @Model.Customer.Surname);">
+                        @Functions.GetInitials(@Model.Customer.Forename, @Model.Customer.Surname)
                     </div>
                 </div>
                 <div class="col-md">

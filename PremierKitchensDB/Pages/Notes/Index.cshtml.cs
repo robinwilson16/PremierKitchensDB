@@ -29,7 +29,9 @@ namespace PremierKitchensDB.Pages.Notes
                                                 .Include(n => n.ApplicationUserCreatedBy)
                                                 .Include(n => n.ApplicationUserUpdatedBy)
                                                 .Include(n => n.Customer)
-                                                select n;
+                                                .OrderByDescending(n => n.CreatedDate)
+
+                                      select n;
 
             //Note = await _context.Note
             //    .Include(n => n.ApplicationUserCreatedBy)
@@ -49,6 +51,40 @@ namespace PremierKitchensDB.Pages.Notes
             Note = await noteIQ.AsNoTracking().ToListAsync();
 
             ViewData["Alerts"] = GetAlerts(Note);
+        }
+
+        public async Task<IActionResult> OnGetJsonAsync(int? id, bool? alertOnly)
+        {
+            IQueryable<Note> noteIQ = from n in _context.Note
+                                                .Include(n => n.ApplicationUserCreatedBy)
+                                                .Include(n => n.ApplicationUserUpdatedBy)
+                                                .Include(n => n.Customer)
+                                                .OrderByDescending(n => n.CreatedDate)
+                                      select n;
+
+            if (id > 0)
+            {
+                noteIQ = noteIQ.Where(n => n.CustomerID == id);
+            }
+            else
+            {
+                //If no customer specified then avoid showing all notes (i.e. for new customer screen)
+                noteIQ = noteIQ.Where(n => n.CustomerID == 0);
+            }
+
+            if (alertOnly == true)
+            {
+                noteIQ = noteIQ.Where(n => n.IsAlert == true);
+            }
+
+            Note = await noteIQ.AsNoTracking().ToListAsync();
+
+            var collectionWrapper = new
+            {
+                Notes = Note
+            };
+
+            return new JsonResult(Note);
         }
 
         public static string GetAlerts(IList<Note> notes)

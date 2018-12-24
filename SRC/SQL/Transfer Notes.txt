@@ -1,0 +1,17 @@
+INSERT INTO Note 
+(
+	CustomerID,
+	NoteText,
+	IsAlert,
+	CreatedDate,
+	CreatedBy
+)
+SELECT
+	CustomerID = C.CustomerID,
+	NoteText = N.noteText,
+	IsAlert = 0,
+	CreatedDate = N.noteDate,
+	CreatedBy = 'e9483193-0ced-4b8c-9eb0-1faad74e9907'
+FROM userNotes N
+INNER JOIN Customer C
+	ON C.LegacyCustomerID = N.userID

@@ -1,0 +1,44 @@
+INSERT INTO Address (
+	CustomerID,
+	Address1,
+	Address2,
+	Address3,
+	Address4,
+	PostcodeOut,
+	PostcodeIn,
+	HomePhone,
+	DateFrom,
+	IsPrimary,
+	AddressTypeID,
+	CreatedDate,
+	CreatedBy
+)
+SELECT
+	CustomerID = C.CustomerID,
+	Address1 = U.addr1,
+	Address2 = U.addr2,
+	Address3 = U.addr3,
+	Address4 = U.addr4,
+	PostcodeOut = 
+		CASE
+			WHEN CHARINDEX ( ' ', U.postCode ) > 0 THEN
+				LEFT ( U.postCode, CHARINDEX ( ' ', U.postCode ) - 1 )
+			ELSE
+				LEFT ( U.PostCode, 4 )
+		END,
+	PostcodeIn = 
+		CASE
+			WHEN CHARINDEX ( ' ', REVERSE ( U.postCode ) ) > 0 THEN
+				RIGHT ( U.postCode, CHARINDEX ( ' ', REVERSE ( U.postCode ) ) - 1 )
+			ELSE
+				RIGHT ( U.PostCode, 3 )
+		END,
+	HomePhone = U.telHome,
+	DateFrom = U.dateOfEnquiry,
+	IsPrimary = 1,
+	AddressTypeID = 1,
+	CreatedDate = GetDate(),
+	CreatedBy = 'e9483193-0ced-4b8c-9eb0-1faad74e9907'
+FROM users U
+INNER JOIN Customer C
+	ON C.LegacyCustomerID = U.id

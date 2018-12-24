@@ -11,10 +11,18 @@ namespace PremierKitchensDB.Pages.CustomerDetails
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
+        private readonly PremierKitchensDB.Data.ApplicationDbContext _context;
+
+        public IndexModel(PremierKitchensDB.Data.ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public string CurrentSearch { get; set; }
         public string CurrentSearchSQL { get; set; }
         public string CurrentSearchHTML { get; set; }
         public string CurrentSort { get; set; }
+        public string LoggedInUser { get; set; }
 
         public void OnGet(string search, string sort)
         {
@@ -37,6 +45,7 @@ namespace PremierKitchensDB.Pages.CustomerDetails
             CurrentSearch = search;
             CurrentSearchSQL = searchSQL;
             CurrentSearchHTML = searchHtml;
+            LoggedInUser = Shared.Identity.GetUserName(User, _context);
 
             if (String.IsNullOrEmpty(sortSQL))
             {

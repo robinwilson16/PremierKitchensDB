@@ -1,0 +1,16 @@
+INSERT INTO CustomerArea
+SELECT
+	CustomerID = C.CustomerID,
+	AreaID = 
+		CASE
+			WHEN UA.areaID = 1 THEN 2
+			WHEN UA.areaID = 2 THEN 1
+			WHEN UA.areaID = 3 THEN 3
+			ELSE 3
+		END
+FROM userAreas UA
+INNER JOIN Customer C
+	ON C.LegacyCustomerID = UA.userID
+
+SELECT *
+FROM CustomerArea CA

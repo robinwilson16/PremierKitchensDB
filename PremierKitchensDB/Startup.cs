@@ -14,16 +14,19 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PremierKitchensDB.Models;
 using System.Globalization;
+using Microsoft.AspNetCore.Hosting.Internal;
 
 namespace PremierKitchensDB
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            HostingEnvironment = env;
         }
 
+        public IHostingEnvironment HostingEnvironment { get; }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -49,7 +52,7 @@ namespace PremierKitchensDB
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,8 +91,8 @@ namespace PremierKitchensDB
             CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
             CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
-            CreateUsers.Initialize(context, userManager, roleManager, configuration).Wait();// seed here
-            DbInitializer.Initialize(context, userManager, roleManager, configuration).Wait();// seed here
+            //CreateUsers.Initialize(context, userManager, roleManager, configuration).Wait();// seed here
+            //DbInitializer.Initialize(context, userManager, roleManager, configuration).Wait();// seed here
         }
     }
 }

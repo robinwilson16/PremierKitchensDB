@@ -74,7 +74,6 @@ namespace PremierKitchensDB.Models
 
         [JsonIgnore]
         public Customer Customer { get; set; }
-        [JsonIgnore]
         public AddressType AddressType { get; set; }
     }
 }

@@ -70,18 +70,6 @@ namespace PremierKitchensDB.Pages.Customers
             _context.Customer.Add(Customer);
             await _context.SaveChangesAsync();
 
-            AuditTrail auditTrail = new AuditTrail();
-
-            auditTrail.TableName = "Customer";
-            auditTrail.WhereClause = "CustomerID = " + Customer.CustomerID;
-            auditTrail.RowDescription = "CustomerID = " + Customer.CustomerID;
-            auditTrail.ChangeInfo = "Record Created";
-            auditTrail.ChangeType = 1;
-            auditTrail.UpdatedDate = DateTime.Now;
-            auditTrail.UpdatedBy = Shared.Identity.GetUserId(User, _context);
-            _context.AuditTrail.Add(auditTrail);
-            await _context.SaveChangesAsync();
-
             await Shared.Audit.AddAuditRecord(_context, 'C', "Customer", "CustomerID", Customer.CustomerID, Shared.Identity.GetUserId(User, _context), "Customer Created");
 
             //return RedirectToPage("./Index");

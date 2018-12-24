@@ -9,9 +9,20 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserAsync(User).Result.Forename!</a>
-            </li>
-            <li class="nav-item">
+                <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                    Hello
+                    @if (UserManager.GetUserAsync(User).Result != null)
+                    {
+                        @UserManager.GetUserAsync(User).Result.Forename;
+                    }
+                    !
+                </a>
+
+
+                    </li>
+
+
+                    <li class="nav-item">
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Logout</button>
             </li>
         </ul>

@@ -20,6 +20,10 @@ namespace PremierKitchensDB
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://localhost:5004");
+                .UseUrls("http://localhost:5004")
+                .ConfigureKestrel((context, options) =>
+                {
+                    // Set properties and call methods on options
+                });
     }
 }

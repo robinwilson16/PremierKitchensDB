@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PremierKitchensDB.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace PremierKitchensDB.Areas.Identity.Pages.Account
 {
@@ -18,17 +22,22 @@ namespace PremierKitchensDB.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private HttpContext _httpContext;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, IHttpContextAccessor httpContextAccessor)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _httpContext = httpContextAccessor.HttpContext;
         }
 
         [BindProperty]
         public InputModel Input { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+        public Dictionary<string, string> Database { get; set; }
+        public ApplicationUser applicationUser { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -47,6 +56,9 @@ namespace PremierKitchensDB.Areas.Identity.Pages.Account
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
+            [Display(Name = "System")]
+            public string Database { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -63,11 +75,44 @@ namespace PremierKitchensDB.Areas.Identity.Pages.Account
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
+            //Check which database was last selected:
+            var systemDatabase = "";
+
+            if (_httpContext.Request.Cookies["SystemDatabase"] != null)
+            {
+                systemDatabase = _httpContext.Request.Cookies["SystemDatabase"].ToString();
+            }
+            else
+            {
+                systemDatabase = "Live";
+
+                //If no cookie then set one for live system
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddDays(14);
+                option.HttpOnly = false;
+                option.IsEssential = true;
+                Response.Cookies.Append("SystemDatabase", systemDatabase, option);
+            }
+
+            //Get list of databases to connect to
+            Database = new Dictionary<string, string>();
+            Database.Add("Live", "Live System");
+            Database.Add("Training", "Training System");
+
+            ViewData["Database"] = new SelectList(Database, "Key", "Value", systemDatabase);
+
             ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            //Record the database the user has connected to
+            //CookieOptions option = new CookieOptions();
+            //option.Expires = DateTime.Now.AddDays(14);
+            //option.HttpOnly = true;
+            //option.IsEssential = true;
+            //Response.Cookies.Append("SystemDatabase", Input.Database, option);
+
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)

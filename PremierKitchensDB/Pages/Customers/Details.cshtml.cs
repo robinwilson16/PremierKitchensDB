@@ -40,6 +40,9 @@ namespace PremierKitchensDB.Pages.Customers
             {
                 return NotFound();
             }
+
+            await Shared.Audit.AddAuditRecord(_context, 'V', "Customer", "CustomerID", Customer.CustomerID, Shared.Identity.GetUserId(User, _context), Customer.Forename + " " + Customer.Surname + " (" + Customer.CustomerID + ") Viewed");
+
             return Page();
         }
     }

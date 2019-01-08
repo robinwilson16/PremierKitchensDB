@@ -76,6 +76,17 @@ namespace PremierKitchensDB
                 app.UseHsts();
             }
 
+            //Avoid CORS errors with JS files served over CDN
+            app.UseCors(builder => builder.WithOrigins(
+                "http://www.premierkitchensdb.com",
+                "https://www.premierkitchensdb.com",
+                "http://premierkitchensdb.com",
+                "https://premierkitchensdb.com"
+                )
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+            );
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();

@@ -53,8 +53,11 @@ namespace PremierKitchensDB.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var systemDatabase = "";
+            var dbConnection = "";
+            dbConnection = "TrainingConnection";
 
+            //Comment out below section for PMC Migrations to avoid errors
+            var systemDatabase = "";
             if (_httpContext.Request.Cookies["SystemDatabase"] != null)
             {
                 systemDatabase = _httpContext.Request.Cookies["SystemDatabase"].ToString();
@@ -64,15 +67,16 @@ namespace PremierKitchensDB.Data
                 systemDatabase = "Live";
             }
 
-            var dbConnection = "";
-            
-            if(systemDatabase == "Training") {
+            if (systemDatabase == "Training")
+            {
                 dbConnection = "TrainingConnection";
             }
-            else {
+            else
+            {
                 dbConnection = "LiveConnection";
             }
 
+            //DO NOT COMMENT OUT THIS PART
             var connString = _config.GetConnectionString(dbConnection);
 
             optionsBuilder.UseSqlServer(connString);

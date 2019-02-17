@@ -9,19 +9,14 @@
     },
     {
       "provider": "cdnjs",
-      "library": "twitter-bootstrap@4.1.3",
+      "library": "twitter-bootstrap@4.2.1",
       "destination": "wwwroot/lib/twitter-bootstrap/"
     },
-    {
-      "provider": "cdnjs",
-      "library": "popper.js@1.14.6",
-      "destination": "wwwroot/lib/popper.js/"
-    },
-    {
-      "provider": "unpkg",
-      "library": "@fortawesome/fontawesome-free@5.6.1",
-      "destination": "wwwroot/lib/font-awesome/"
-    },
+    //{
+    //  "provider": "unpkg",
+    //  "library": "@fortawesome/fontawesome-free@5.6.3",
+    //  "destination": "wwwroot/lib/font-awesome/"
+    //},
     {
       "provider": "cdnjs",
       "library": "datatables@1.10.19",
@@ -29,7 +24,7 @@
     },
     {
       "provider": "cdnjs",
-      "library": "moment.js@2.22.2",
+      "library": "moment.js@2.24.0",
       "destination": "wwwroot/lib/moment.js/"
     }
   ]

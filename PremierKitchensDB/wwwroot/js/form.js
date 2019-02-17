@@ -1,6 +1,12 @@
 ﻿//Help with IE compatibility for .load and .get
 $.ajaxSetup({ cache: false });
 
+//Fix column header widths on jquery dataTables
+$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    //$($.fn.dataTable.tables(true)).DataTable().columns.adjust();
+    $($.fn.dataTable.tables(true)).DataTable().scroller.measure();
+});
+
 function noNulls(input) {
     if (input != null) {
         return input;
@@ -11,7 +17,7 @@ function noNulls(input) {
 }
 
 function BRs(input) {
-    if (input !== null) {
+    if (input != null) {
         return input + "<br />";
     }
     else {
@@ -122,14 +128,13 @@ function attachListFunctions(
 
     $(".dataList td").click(function (event) {
         var rowIndex = $(this).parent().parent().children().index($(this).parent());
-        var colIndex = $(this).parent().children().index($(this));
+        var colIndex = $(this).index();
 
         showFilterAndSort(this, colIndex);
     });
     $(".dataList td").contextmenu(function (event) {
         var rowIndex = $(this).parent().parent().children().index($(this).parent());
-        var colIndex = $(this).parent().children().index($(this));
-
+        var colIndex = $(this).index();
         showFilterAndSort(this, colIndex);
     });
 }
@@ -143,12 +148,13 @@ function showFilterAndSort(elem, colIndex) {
     //Get field and value
     var fld = $(elem).find("a").attr("target");
 
-    if (fld !== null) {
+    if (fld != null) {
         var val = $(elem).find("a").html().trim();
         var dataTable = $(elem).find("a").attr("aria-label");
 
         //Store values in popup
         $("#FilterCol").val(fld);
+        $("#FilterColNum").val(colIndex);
         $("#FilterVal").val(val);
         $("#FilterTable").val(dataTable);
 
@@ -209,6 +215,52 @@ function showFilterAndSort(elem, colIndex) {
     }
 }
 
+//$.fn.dataTable.ext.search.push (
+//    function (settings, data, dataIndex, row, counter) {
+//        if (settings.sTableId === "CustomerList") {
+//            return filterDataTable(data);
+//        }
+//        else {
+//            return true;
+//        }
+//    }
+//);
+
+//function filterDataTable(data) {
+//    //Filter the table using jQuery Datatables
+//    let filterQuery = $("#FilterQuery").val();
+
+//    //Remove leading ! from string
+//    filterQuery = filterQuery.replace(/^\!+|\!+$/g, '');
+
+//    let filters = filterQuery.split("!");
+//    if (filterQuery !== "" && filters.length > 0) {
+//        for (let filter of filters) {
+//            let colID = filter.substring(0, filter.indexOf(","));
+//            let comp = filter.substring(filter.indexOf(",") + 1, filter.lastIndexOf(","));
+//            let searchVal = filter.substring(filter.lastIndexOf(",") + 1, filter.length);
+//            let curVal = data[colID];
+
+//            if (curVal === searchVal) {
+//                return true;
+//            }
+//            else {
+//                return false;
+//            }
+//        }
+
+//        //Can also search this way - not used:
+//        //listData
+//        //    .column(3)
+//        //    .search("Cu")
+//        //    .draw();
+//    }
+//    else {
+//        //No filter applied
+//        return true;
+//    }
+//}
+
 function attachFilterFunctions(colIndex) {
     $(".FilterButton").click(function (event) {
         event.preventDefault();
@@ -219,7 +271,7 @@ function attachFilterFunctions(colIndex) {
         var tbl = $("#FilterTable").val();
         var curFilter = $("#FilterQuery").val();
 
-        performFilteredSearch(col, comp, val, tbl, curFilter);
+        performFilteredSearch(colIndex, col, comp, val, tbl, curFilter);
     });
 
     $(".DoFilterSearch").click(function (event) {
@@ -231,7 +283,7 @@ function attachFilterFunctions(colIndex) {
         var tbl = $("#FilterTable").val();
         var curFilter = $("#FilterQuery").val();
 
-        performFilteredSearch(col, comp, val, tbl, curFilter);
+        performFilteredSearch(colIndex, col, comp, val, tbl, curFilter);
     });
 
     $(".FilterSearch").keypress(function (e) {
@@ -244,7 +296,7 @@ function attachFilterFunctions(colIndex) {
             var tbl = $("#FilterTable").val();
             var curFilter = $("#FilterQuery").val();
 
-            performFilteredSearch(col, comp, val, tbl, curFilter);
+            performFilteredSearch(colIndex, col, comp, val, tbl, curFilter);
         }
     });
 
@@ -254,27 +306,34 @@ function attachFilterFunctions(colIndex) {
         var col = $("#FilterCol").val();
         var tbl = $("#FilterTable").val();
         var sortOrder = $(this).attr("aria-label");
+        var searchParams = $("#FilterQuery").val();
         var curSort = $("#SortQuery").val();
 
         $("#SortQuery").val(curSort + '!' + col + ',' + sortOrder);
 
         //Hide tooltip
-        $("#" + tbl).find("td").popover("hide");
+        var table = $("#" + tbl);
+        var tableSrc = table.attr("aria-label");
+
+        table.find("td").popover("hide");
 
         sortOrder = sortOrder.toLowerCase();
 
-        var table = $("#" + tbl);
-        var tableSrc = table.attr("aria-label");
         var listData = table.DataTable();
-        listData
-            .order([colIndex, sortOrder])
-            .draw();
+
+        //Use SQL backend to sort list
+        listData.ajax.url("/" + tableSrc + "/?handler=Json&search=" + searchParams + "&sort=" + curSort).load(null, false);
+
+        //Use Data Tables frontend instead
+        //listData
+        //    .order([colIndex, sortOrder])
+        //    .draw();
 
         $(".SortApplied").show();
     });
 }
 
-function performFilteredSearch(col, comp, val, tbl, curFilter) {
+function performFilteredSearch(colIndex, col, comp, val, tbl, curFilter) {
     //Handle checkboxes
     if (val.indexOf('checked="checked"') > -1) {
         val = "true";
@@ -331,6 +390,7 @@ function performFilteredSearch(col, comp, val, tbl, curFilter) {
         $("#FilterQuery").val(curFilter + '!' + col + ',' + comp + ',' + val);
     }
     var searchParams = $("#FilterQuery").val();
+    var curSort = $("#SortQuery").val();
 
     //Hide tooltip
     var table = $("#" + tbl);
@@ -339,7 +399,11 @@ function performFilteredSearch(col, comp, val, tbl, curFilter) {
     table.find("td").popover("hide");
 
     var listData = table.DataTable();
-    listData.ajax.url("/" + tableSrc + "/?handler=Json&search=" + searchParams).load(null, false);
+    //Use SQL backend to filter list
+    listData.ajax.url("/" + tableSrc + "/?handler=Json&search=" + searchParams + "&sort=" + curSort).load(null, false);
+
+    //Use DataTables frontend to filter list - use SQL instead due to performance issues over several executions of.load
+    //listData.draw();
 
     $(".FilterApplied").show();
 }
@@ -349,10 +413,17 @@ $(".ClearSortButton").click(function (event) {
 
     var tbl = $(this).attr("aria-label");
     var table = $("#" + tbl);
-    var listData = table.DataTable();
+    var tableSrc = table.attr("aria-label");
 
     $("#SortQuery").val("");
-    listData.order.neutral().draw();
+
+    var searchParams = $("#FilterQuery").val();
+    var curSort = "";
+
+    var listData = table.DataTable();
+    listData.ajax.url("/" + tableSrc + "/?handler=Json&search=" + searchParams + "&sort=" + curSort).load(null, false);
+
+    //listData.order.neutral().draw();
 
     $(".SortApplied").hide();
 });
@@ -366,8 +437,11 @@ $(".ClearCurrentFiltersButton").click(function (event) {
 
     $("#FilterQuery").val("");
 
+    var searchParams = "";
+    var curSort = $("#SortQuery").val();
+
     var listData = table.DataTable();
-    listData.ajax.url("/" + tableSrc + "/?handler=Json").load(null, false);
+    listData.ajax.url("/" + tableSrc + "/?handler=Json&search=" + searchParams + "&sort=" + curSort).load(null, false);
 
     $(".FilterApplied").hide();
 });
@@ -409,7 +483,7 @@ function loadList(
     listData = $("#" + listToRefresh).DataTable();
 
     var listSrc;
-    if (listObjectID != null) {
+    if (listObjectID.length > 0) {
         listSrc = "/" + relativeURL + "/" + listObjectID + "/?handler=Json&search=" + listQueryParams;
     }
     else {

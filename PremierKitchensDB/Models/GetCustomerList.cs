@@ -45,6 +45,14 @@ namespace PremierKitchensDB.Models
         [StringLength(15)]
         public string WorkPhone { get; set; }
 
+        [Display(Name = "Address")]
+        [StringLength(300)]
+        public string Address { get; set; }
+
+        [Display(Name = "PostCode")]
+        [StringLength(10)]
+        public string PostCode { get; set; }
+
         [Display(Name = "Order Value")]
         [DataType(DataType.Currency)]
         [Column(TypeName = "decimal(18,2)")]

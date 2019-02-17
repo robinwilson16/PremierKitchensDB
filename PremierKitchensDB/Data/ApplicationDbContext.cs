@@ -54,7 +54,7 @@ namespace PremierKitchensDB.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var dbConnection = "";
-            dbConnection = "TrainingConnection";
+            dbConnection = "LiveConnection";
 
             //Comment out below section for PMC Migrations to avoid errors
             var systemDatabase = "";

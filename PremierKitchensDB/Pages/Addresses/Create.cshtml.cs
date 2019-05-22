@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json.Linq;
 using PremierKitchensDB.Data;
 using PremierKitchensDB.Models;
+using PremierKitchensDB.Shared;
 
 namespace PremierKitchensDB.Pages.Addresses
 {
@@ -44,12 +45,12 @@ namespace PremierKitchensDB.Pages.Addresses
 
             //Override values for created by and date
             Address.CreatedDate = DateTime.Now;
-            Address.CreatedBy = Shared.Identity.GetUserId(User, _context);
+            Address.CreatedBy = Identity.GetUserId(User, _context);
 
             _context.Address.Add(Address);
             await _context.SaveChangesAsync();
 
-            await Shared.Audit.AddAuditRecord(_context, 'C', "Address", "AddressID", Address.AddressID, Shared.Identity.GetUserId(User, _context), "Address Created");
+            await Audit.AddAuditRecord(_context, 'C', "Address", "AddressID", Address.AddressID, Identity.GetUserId(User, _context), "Address Created");
 
             //return RedirectToPage("./Index");
             JObject jsonItem = JObject.FromObject(Address);

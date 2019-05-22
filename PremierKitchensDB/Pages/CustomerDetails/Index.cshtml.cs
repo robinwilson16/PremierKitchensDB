@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
+using PremierKitchensDB.Shared;
 
 namespace PremierKitchensDB.Pages.CustomerDetails
 {
@@ -12,10 +14,12 @@ namespace PremierKitchensDB.Pages.CustomerDetails
     public class IndexModel : PageModel
     {
         private readonly PremierKitchensDB.Data.ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public IndexModel(PremierKitchensDB.Data.ApplicationDbContext context)
+        public IndexModel(PremierKitchensDB.Data.ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public string CurrentSearch { get; set; }
@@ -23,6 +27,8 @@ namespace PremierKitchensDB.Pages.CustomerDetails
         public string CurrentSearchHTML { get; set; }
         public string CurrentSort { get; set; }
         public string LoggedInUser { get; set; }
+        public string UserGreeting { get; set; }
+        public string SystemVersion { get; set; }
 
         public void OnGet(string search, string sort)
         {
@@ -45,7 +51,7 @@ namespace PremierKitchensDB.Pages.CustomerDetails
             CurrentSearch = search;
             CurrentSearchSQL = searchSQL;
             CurrentSearchHTML = searchHtml;
-            LoggedInUser = Shared.Identity.GetUserName(User, _context);
+            LoggedInUser = Identity.GetUserName(User, _context);
 
             if (String.IsNullOrEmpty(sortSQL))
             {
@@ -54,6 +60,10 @@ namespace PremierKitchensDB.Pages.CustomerDetails
             //sortSQL = "";
             //searchSQL = "";
             CurrentSort = sort;
+
+            UserGreeting = Identity.GetGreeting();
+
+            SystemVersion = _configuration["Version"];
         }
     }
 }

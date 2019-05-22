@@ -8,7 +8,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 });
 
 function noNulls(input) {
-    if (input != null) {
+    if (!input) {
         return input;
     }
     else {
@@ -17,7 +17,7 @@ function noNulls(input) {
 }
 
 function BRs(input) {
-    if (input != null) {
+    if (!input) {
         return input + "<br />";
     }
     else {
@@ -87,7 +87,7 @@ var stringToColour = function (str) {
     }
     var colour = '#';
     for (i = 0; i < 3; i++) {
-        var value = (hash >> (i * 8)) & 0xFF;
+        var value = hash >> i * 8 & 0xFF;
         colour += ('00' + value.toString(16)).substr(-2);
     }
     return colour;
@@ -148,7 +148,7 @@ function showFilterAndSort(elem, colIndex) {
     //Get field and value
     var fld = $(elem).find("a").attr("target");
 
-    if (fld != null) {
+    if (!fld) {
         var val = $(elem).find("a").html().trim();
         var dataTable = $(elem).find("a").attr("aria-label");
 

@@ -4,7 +4,7 @@
   "libraries": [
     {
       "provider": "cdnjs",
-      "library": "jquery@3.3.1",
+      "library": "jquery@3.4.1",
       "destination": "wwwroot/lib/jquery/"
     },
     {
@@ -12,11 +12,10 @@
       "library": "twitter-bootstrap@4.3.1",
       "destination": "wwwroot/lib/twitter-bootstrap/"
     },
-    //{
-    //  "provider": "unpkg",
-    //  "library": "@fortawesome/fontawesome-free@5.6.3",
-    //  "destination": "wwwroot/lib/font-awesome/"
-    //},
+    {
+      "library": "font-awesome@5.8.1",
+      "destination": "wwwroot/lib/font-awesome/"
+    },
     {
       "provider": "cdnjs",
       "library": "datatables@1.10.19",
@@ -26,6 +25,10 @@
       "provider": "cdnjs",
       "library": "moment.js@2.24.0",
       "destination": "wwwroot/lib/moment.js/"
+    },
+    {
+      "library": "marked@0.6.2",
+      "destination": "wwwroot/lib/marked/"
     }
   ]
 }

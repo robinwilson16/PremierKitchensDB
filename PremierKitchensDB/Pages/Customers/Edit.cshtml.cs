@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using PremierKitchensDB.Data;
 using PremierKitchensDB.Models;
 using PremierKitchensDB.Pages.Customers;
+using PremierKitchensDB.Shared;
 
 namespace PremierKitchensDB.Pages.Customers
 {
@@ -56,7 +57,7 @@ namespace PremierKitchensDB.Pages.Customers
             
             PopulateCustomerAreaData(_context, Customer);
 
-            await Shared.Audit.AddAuditRecord(_context, 'V', "Customer", "CustomerID", Customer.CustomerID, Shared.Identity.GetUserId(User, _context), Customer.Forename + " " + Customer.Surname + " (" + Customer.CustomerID + ") Viewed");
+            await Audit.AddAuditRecord(_context, 'V', "Customer", "CustomerID", Customer.CustomerID, Identity.GetUserId(User, _context), Customer.Forename + " " + Customer.Surname + " (" + Customer.CustomerID + ") Viewed");
 
             return Page();
         }
@@ -81,7 +82,7 @@ namespace PremierKitchensDB.Pages.Customers
             Customer.CreatedBy = originalCustomer.CreatedBy;
             Customer.CreatedDate = originalCustomer.CreatedDate;
             Customer.UpdatedDate = DateTime.Now;
-            Customer.UpdatedBy = Shared.Identity.GetUserId(User, _context);
+            Customer.UpdatedBy = Identity.GetUserId(User, _context);
 
             var customerToUpdate = await _context.Customer
                 .Include(c => c.CustomerArea)
@@ -119,11 +120,11 @@ namespace PremierKitchensDB.Pages.Customers
 
             string changes = "";
 
-            changes = Shared.Audit.WhatChanged(originalCustomerObj, newCustomerObj, changes);
+            changes = Audit.WhatChanged(originalCustomerObj, newCustomerObj, changes);
 
-            changes = Shared.Audit.ElementsChanged(originalCustomerAreasObj, newCustomerAreasObj, "AreaID", changes);
+            changes = Audit.ElementsChanged(originalCustomerAreasObj, newCustomerAreasObj, "AreaID", changes);
 
-            await Shared.Audit.AddAuditRecord(_context, 'E', "Customer", "CustomerID", Customer.CustomerID, Shared.Identity.GetUserId(User, _context), changes);
+            await Audit.AddAuditRecord(_context, 'E', "Customer", "CustomerID", Customer.CustomerID, Identity.GetUserId(User, _context), changes);
             //return RedirectToPage("./Index");
             return new JsonResult(Customer);
         }

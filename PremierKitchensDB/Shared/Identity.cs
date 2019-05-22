@@ -41,5 +41,26 @@ namespace PremierKitchensDB.Shared
 
             return userName;
         }
+
+        public static string GetGreeting()
+        {
+            string greeting = "";
+            int currentHour = DateTime.Now.Hour;
+
+            if (currentHour < 12)
+            {
+                greeting = "Good Morning";
+            }
+            else if (currentHour < 17)
+            {
+                greeting = "Good Afternoon";
+            }
+            else
+            {
+                greeting = "Good Evening";
+            }
+
+            return greeting;
+        }
     }
 }

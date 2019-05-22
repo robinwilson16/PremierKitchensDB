@@ -11,6 +11,7 @@ using Newtonsoft.Json.Linq;
 using PremierKitchensDB.Data;
 using PremierKitchensDB.Models;
 using PremierKitchensDB.Pages.Customers;
+using PremierKitchensDB.Shared;
 
 namespace PremierKitchensDB.Pages.Customers
 {
@@ -51,7 +52,7 @@ namespace PremierKitchensDB.Pages.Customers
 
             //Override values for created by and date
             Customer.CreatedDate = DateTime.Now;
-            Customer.CreatedBy = Shared.Identity.GetUserId(User, _context);
+            Customer.CreatedBy = Identity.GetUserId(User, _context);
 
             if (selectedAreas != null)
             {
@@ -70,7 +71,7 @@ namespace PremierKitchensDB.Pages.Customers
             _context.Customer.Add(Customer);
             await _context.SaveChangesAsync();
 
-            await Shared.Audit.AddAuditRecord(_context, 'C', "Customer", "CustomerID", Customer.CustomerID, Shared.Identity.GetUserId(User, _context), "Customer Created");
+            await Audit.AddAuditRecord(_context, 'C', "Customer", "CustomerID", Customer.CustomerID, Identity.GetUserId(User, _context), "Customer Created");
 
             //return RedirectToPage("./Index");
             JObject jsonItem = JObject.FromObject(Customer);

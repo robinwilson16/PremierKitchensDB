@@ -10,7 +10,7 @@
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                    @Model.UserGreeting, <i class="fas fa-user"></i> 
+                    Hello, <i class="fas fa-user"></i> 
                     @if (UserManager.GetUserAsync(User).Result != null)
                     {
                         @UserManager.GetUserAsync(User).Result.Forename;

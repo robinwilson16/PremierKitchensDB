@@ -5,7 +5,33 @@
     ViewData["Title"] = "Index";
 }
 
-<div class="container-fluid first">
+@if (Model.Browser.Contains("Trident"))
+{
+    <div class="container-fluid Spacer">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-danger text-center" role="alert">
+                    <i class="fab fa-internet-explorer"></i> You are using Internet Explorer which is outdated and not supported. Please switch to a modern browser such as <a href="https://www.google.com/chrome/" class="alert-link" target="_blank" rel="noopener"><i class="fab fa-chrome"></i> Chrome</a> or <a href="https://www.microsoftedgeinsider.com" class="alert-link" target="_blank" rel="noopener"><i class="fab fa-edge"></i> Edge</a>
+</div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (@Model.SystemDatabase != "Live")
+{
+    <div class="container-fluid Spacer">
+        <div class="row">
+            <div class="col-md">
+                <div class="alert alert-warning text-center" role="alert">
+                    <i class="fas fa-database"></i> <strong>@Model.SystemDatabase</strong> System
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container-fluid Spacer">
     <div class="row">
         <div class="col">
             <div class="alert alert-primary" role="alert">
@@ -61,6 +87,7 @@
                         <span class="FilterNotApplied"><button type="button" class="btn btn-outline-primary" disabled><i class="fas fa-info-circle"></i> Click/touch a value below to view filtering options</button></span>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>

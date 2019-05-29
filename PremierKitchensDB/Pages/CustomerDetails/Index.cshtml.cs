@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +29,9 @@ namespace PremierKitchensDB.Pages.CustomerDetails
         public string CurrentSort { get; set; }
         public string LoggedInUser { get; set; }
         public string UserGreeting { get; set; }
+        public string SystemDatabase { get; set; }
         public string SystemVersion { get; set; }
+        public string Browser { get; set; }
 
         public void OnGet(string search, string sort)
         {
@@ -62,8 +65,21 @@ namespace PremierKitchensDB.Pages.CustomerDetails
             CurrentSort = sort;
 
             UserGreeting = Identity.GetGreeting();
+            HttpContextAccessor httpContextAccessor = new HttpContextAccessor();
+
+            httpContextAccessor.HttpContext.Request.Cookies.TryGetValue("SystemDatabase", out string SystemDB);
+            if(SystemDB != null)
+            {
+                SystemDatabase = SystemDB;
+            }
+            else
+            {
+                SystemDatabase = "Live";
+            }
 
             SystemVersion = _configuration["Version"];
+
+            Browser = Request.Headers["User-Agent"];
         }
     }
 }

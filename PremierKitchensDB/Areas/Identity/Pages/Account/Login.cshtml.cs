@@ -113,6 +113,15 @@ namespace PremierKitchensDB.Areas.Identity.Pages.Account
             //option.IsEssential = true;
             //Response.Cookies.Append("SystemDatabase", Input.Database, option);
 
+            //Get list of databases to connect to
+            var systemDatabase = _httpContext.Request.Cookies["SystemDatabase"].ToString();
+
+            Database = new Dictionary<string, string>();
+            Database.Add("Live", "Live System");
+            Database.Add("Training", "Training System");
+
+            ViewData["Database"] = new SelectList(Database, "Key", "Value", systemDatabase);
+
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)

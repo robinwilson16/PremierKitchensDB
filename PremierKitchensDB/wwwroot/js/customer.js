@@ -263,23 +263,29 @@ function showCustomerAlerts(customerID) {
         alertsToLoad = "/Notes/?handler=Json&alertOnly=true";
     }
 
-    var loadAlerts = $.get(alertsToLoad, function (data) {
-        //Show any alerts from the remote page
-        var alertHtml = "";
-        for (var key in data) {
-            if (data[key].noteText !== null) {
-                alertHtml += "<p>" + data[key].noteText + "</p>";
+    $.get(alertsToLoad, function (data) {
+
+    })
+        .then(data => {
+            //Show any alerts from the remote page
+            var alertHtml = "";
+            for (var key in data) {
+                if (data[key].noteText !== null) {
+                    alertHtml += "<p>" + data[key].noteText + "</p>";
+                }
             }
-        }
 
-        if (alertHtml !== "") {
-            doModal("Customer Alerts", alertHtml);
-        }
+            if (alertHtml !== "") {
+                doModal("Customer Alerts", alertHtml);
+            }
 
-        console.log(alertsToLoad + " Loaded");
-    });
-    loadAlerts.fail(function () {
-        doErrorModal("Error Loading " + alertsToLoad, "The list at " + alertsToLoad + " returned a server error and could not be loaded");
+            console.log(alertsToLoad + " Loaded");
+        })
+        .fail(function () {
+            let title = `Error Loading ${alertsToLoad}`;
+            let content = `The list at ${alertsToLoad} returned a server error and could not be loaded`;
+
+            doErrorModal(title, content);
     });
 }
 

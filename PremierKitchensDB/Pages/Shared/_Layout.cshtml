@@ -1,10 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using PremierKitchensDB.Models
 @using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Options
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IHttpContextAccessor HttpContextAccessor
+@inject IOptions<SystemSettings> ApplicationSettings
 
 <!DOCTYPE html>
 <html>
@@ -25,7 +27,7 @@
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/twitter-bootstrap/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" crossorigin="anonymous" />
         @*<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/jquery.dataTables.min.css"
             asp-fallback-href="~/lib/datatables/css/jquery.dataTables.min.css"
             asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />*@
@@ -38,6 +40,9 @@
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+    @*https://coliff.github.io/dark-mode-switch/index.html*@
+    @*https://github.com/coliff/dark-mode-switch/blob/master/dark-mode.css*@
+    <link rel="stylesheet" href="~/css/dark-mode.css" asp-append-version="true" />
 
 </head>
 <body>
@@ -67,13 +72,17 @@
                         </div>
                     </li>
                 </ul>
+                <div class="custom-control custom-switch mr-auto bg-white DarkSwitch">
+                    <input type="checkbox" class="custom-control-input" id="darkSwitch">
+                    <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                </div>
                 <partial name="_LoginPartial" />
             </div>
         </div>
     </nav>
 
     @*<partial name="_CookieConsentPartial" />*@
-
+    
     <div class="container-fluid body-content">
         @RenderBody()
     </div>
@@ -100,7 +109,7 @@
                     }
                 </div>
                 <div class="col-md text-right">
-                    <span class="text-muted">&copy; 2018-2019 - PremierKitchensDB</span>
+                    <span class="text-muted">&copy; 2018-2019 - PremierKitchensDB - @ApplicationSettings.Value.Version</span>
                 </div>
             </div>
         </div>
@@ -162,10 +171,12 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous">
         </script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js"
+        <script src="//cdnjs.cloudflare.com/ajax/libs/marked/0.7.0/marked.min.js"
                 crossorigin="anonymous">
         </script>
     </environment>
+
+    <script src="~/js/dark-mode-switch.min.js"></script>
 
     <script src="~/js/modals.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

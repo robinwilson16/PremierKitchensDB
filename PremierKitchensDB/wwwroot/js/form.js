@@ -194,6 +194,7 @@ function showFilterAndSort(elem, colIndex) {
         $(elem).popover({
             trigger: 'manual',
             html: true,
+            sanitize: false,
             title: function () {
                 return "Filter and Sort <span class=\"close\">&times;</span>";
             },
@@ -523,31 +524,36 @@ function loadInputForm(
         dataToLoad = "/" + relativeURL + "/Create/";
     }
 
-    var loadFormData = $.get(dataToLoad, function (data) {
-        var formData = $(data).find("#" + formToLoad);
-        $("#" + loadFormIntoDivID).html(formData);
+    $.get(dataToLoad, function (data) {
 
-        attachSubmitInputForm(
-            loadFormIntoDivID,
-            loadListIntoDivID,
-            relativeURL,
-            objectID,
-            parentObjectID,
-            formToSubmit,
-            listToRefresh,
-            listQueryParams,
-            listButtonClass,
-            listSortCol,
-            listSortOrder,
-            objectIDField,
-            closeModalOnSuccess,
-            modelToClose
-        );
-        console.log(dataToLoad + " Loaded");
-    });
+    })
+        .then(data => {
+            var formData = $(data).find("#" + formToLoad);
+            $("#" + loadFormIntoDivID).html(formData);
 
-    loadFormData.fail(function () {
-        doErrorModal("Error Loading Form " + formToLoad, "The form at " + dataToLoad + " returned a server error and could not be loaded");
+            attachSubmitInputForm(
+                loadFormIntoDivID,
+                loadListIntoDivID,
+                relativeURL,
+                objectID,
+                parentObjectID,
+                formToSubmit,
+                listToRefresh,
+                listQueryParams,
+                listButtonClass,
+                listSortCol,
+                listSortOrder,
+                objectIDField,
+                closeModalOnSuccess,
+                modelToClose
+            );
+            console.log(dataToLoad + " Loaded");
+        })
+        .fail(function () {
+            let title = `Error Loading Form ${formToLoad}`;
+            let content = `The form at ${dataToLoad} returned a server error and could not be loaded`;
+
+            doErrorModal(title, content);
     });
 }
 
@@ -572,31 +578,36 @@ function loadDeleteForm(
     if (objectID.length > 0) {
         dataToLoad = "/" + relativeURL + "/Delete/" + objectID + " #" + formToLoad;
 
-        var loadFormData = $.get(dataToLoad, function (data) {
-            var formData = $(data).find("#" + formToLoad);
-            $("#" + loadFormIntoDivID).html(formData);
+        $.get(dataToLoad, function (data) {
 
-            attachSubmitDeleteForm(
-                loadFormIntoDivID,
-                loadListIntoDivID,
-                relativeURL,
-                objectID,
-                parentObjectID,
-                formToSubmit,
-                listToRefresh,
-                listQueryParams,
-                listButtonClass,
-                listSortCol,
-                listSortOrder,
-                objectIDField,
-                closeModalOnSuccess,
-                modelToClose
-            );
-            console.log(dataToLoad + " Loaded");
-        });
+        })
+            .then(data => {
+                var formData = $(data).find("#" + formToLoad);
+                $("#" + loadFormIntoDivID).html(formData);
 
-        loadFormData.fail(function () {
-            doErrorModal("Error Loading Form " + formToLoad, "The form at " + dataToLoad + " returned a server error and could not be loaded");
+                attachSubmitDeleteForm(
+                    loadFormIntoDivID,
+                    loadListIntoDivID,
+                    relativeURL,
+                    objectID,
+                    parentObjectID,
+                    formToSubmit,
+                    listToRefresh,
+                    listQueryParams,
+                    listButtonClass,
+                    listSortCol,
+                    listSortOrder,
+                    objectIDField,
+                    closeModalOnSuccess,
+                    modelToClose
+                );
+                console.log(dataToLoad + " Loaded");
+            })
+            .fail(function () {
+                let title = `Error Loading Form ${formToLoad}`;
+                let content = `The form at ${dataToLoad} returned a server error and could not be loaded`;
+
+                doErrorModal(title, content);
         });
     }
     else {
@@ -710,7 +721,7 @@ function attachSubmitInputForm(
         }
     });
 
-    return form.valid();
+    //return form.valid();
 }
 
 function attachSubmitDeleteForm(

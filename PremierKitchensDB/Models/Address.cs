@@ -35,6 +35,7 @@ namespace PremierKitchensDB.Models
         public string PostcodeIn { get; set; }
 
         [Display(Name = "Home Phone")]
+        [DataType(DataType.PhoneNumber)]
         public string HomePhone { get; set; }
 
         [Display(Name = "Date From")]

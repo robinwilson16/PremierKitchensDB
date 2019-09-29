@@ -32,6 +32,26 @@
 [data-theme="dark"] th.sorting {
     background-color: #333 !important;
     color: #eee !important;
+    border-color: #555 !important;
+}
+
+[data-theme="dark"] .table-bordered td {
+    border-color: #555 !important;
+}
+
+[data-theme="dark"] .table-bordered td a:link,
+[data-theme="dark"] .table-bordered td a:active,
+[data-theme="dark"] .table-bordered td a:visited {
+    color: #fff;
+}
+
+
+[data-theme="dark"] .table-bordered tr.even {
+    background-color: #333 !important;
+}
+
+[data-theme="dark"] .table-bordered tr.odd {
+    background-color: #111 !important;
 }
 
 [data-theme="dark"] .dataTables_scrollBody {

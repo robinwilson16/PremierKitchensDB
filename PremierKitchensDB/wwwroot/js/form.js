@@ -103,10 +103,13 @@ function checkApplyOrOkClicked(button) {
     }
 }
 
-function attachListFunctions(
+function attachListFunctions (
     listButtonClass,
     objectIDField
 ) {
+    //Attach after table has finished loading
+    $("#LoadingModal").modal("hide");
+
     if (!objectIDField) {
         return true;
     }
@@ -335,6 +338,8 @@ function attachFilterFunctions(colIndex) {
 }
 
 function performFilteredSearch(colIndex, col, comp, val, tbl, curFilter) {
+    $("#LoadingModal").modal("show");
+
     //Handle checkboxes
     if (val.indexOf('checked="checked"') > -1) {
         val = "true";
@@ -407,6 +412,9 @@ function performFilteredSearch(colIndex, col, comp, val, tbl, curFilter) {
     //listData.draw();
 
     $(".FilterApplied").show();
+
+    //Added here as doesn't always clear
+    $("#LoadingModal").modal("hide");
 }
 
 $(".ClearSortButton").click(function (event) {

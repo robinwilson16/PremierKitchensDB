@@ -1,4 +1,6 @@
-﻿//Enable popovers
+﻿$("#LoadingModal").modal("show");
+
+//Enable popovers
 $(function () {
     $("[data-toggle=popover]").popover();
 });

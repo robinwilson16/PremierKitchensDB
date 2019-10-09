@@ -27,7 +27,7 @@ namespace PremierKitchensDB.Pages.AuditTrails
         {
             AuditTrail = await _context.AuditTrail
                 .Include(a => a.ApplicationUserUpdatedBy)
-                .Where(a => a.TableName.ToString() == tableName && a.ObjectID == id)
+                .Where(a => a.TableName == tableName && a.ObjectID == id)
                 .OrderByDescending(a => a.UpdatedDate)
                 .ToListAsync();
         }
@@ -36,7 +36,7 @@ namespace PremierKitchensDB.Pages.AuditTrails
         {
             AuditTrail = await _context.AuditTrail
                 .Include(a => a.ApplicationUserUpdatedBy)
-                .Where(a => a.TableName.ToString() == tableName && a.ObjectID == id)
+                .Where(a => a.TableName == tableName && a.ObjectID == id)
                 .OrderByDescending(a => a.UpdatedDate)
                 .ToListAsync();
 

@@ -65,9 +65,6 @@ namespace PremierKitchensDB.Pages.Customers
             //sortSQL = "";
             //searchSQL = "";
             CurrentSort = sort;
-
-            var searchParam = new SqlParameter("@SearchString", searchSQL);
-            var sortParam = new SqlParameter("@SortString", sortSQL);
             
             Showroom = await _context.Showroom
                 .ToListAsync();
@@ -77,7 +74,7 @@ namespace PremierKitchensDB.Pages.Customers
                 .ToListAsync();
 
             GetCustomerList = await _context.GetCustomerList
-                .FromSql("EXEC sp_GetCustomerList @SearchString, @SortString", searchParam, sortParam)
+                .FromSqlInterpolated($"EXEC sp_GetCustomerList @SearchString={searchSQL}, @SortString={sortSQL}")
                 .ToListAsync();
 
             //IQueryable<Customer> customerIQ = from c in _context.Customer
@@ -129,11 +126,8 @@ namespace PremierKitchensDB.Pages.Customers
             //searchSQL = "";
             CurrentSort = sort;
 
-            var searchParam = new SqlParameter("@SearchString", searchSQL);
-            var sortParam = new SqlParameter("@SortString", sortSQL);
-
             GetCustomerList = await _context.GetCustomerList
-                .FromSql("EXEC sp_GetCustomerList @SearchString, @SortString", searchParam, sortParam)
+                .FromSqlInterpolated($"EXEC sp_GetCustomerList @SearchString={searchSQL}, @SortString={sortSQL}")
                 .ToListAsync();
 
             var collectionWrapper = new

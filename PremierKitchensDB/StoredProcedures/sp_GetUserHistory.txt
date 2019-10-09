@@ -1,0 +1,54 @@
+CREATE PROCEDURE sp_GetUserHistory
+	@UserName NVARCHAR(256),
+	@TableName NVARCHAR(100)
+AS
+BEGIN
+	SET NOCOUNT ON;
+		
+	--DECLARE @UserName NVARCHAR(256) = 'user@test.com'
+	--DECLARE @TableName NVARCHAR(100) = 'Customer'
+
+	SELECT TOP 30
+		AuditTrailID = AUD.AuditTrailID,
+		TableName = AUD.TableName,
+		ObjectID = AUD.ObjectID,
+		WhereClause = AUD.WhereClause,
+		RowDescription = AUD.RowDescription,
+		ChangeInfo = AUD.ChangeInfo,
+		ChangeType = AUD.ChangeType,
+		Screen = AUD.Screen,
+		UpdatedDate = AUD.UpdatedDate,
+		UpdatedBy = AUD.UpdatedBy
+	FROM (
+		SELECT
+			AuditTrailID = AUD.AuditTrailID,
+			TableName = AUD.TableName,
+			ObjectID = AUD.ObjectID,
+			WhereClause = AUD.WhereClause,
+			RowDescription = AUD.RowDescription,
+			ChangeInfo = LTRIM ( REPLACE ( AUD.ChangeInfo, ' Viewed', '' ) ),
+			ChangeType = AUD.ChangeType,
+			Screen = AUD.Screen,
+			UpdatedDate = AUD.UpdatedDate,
+			UpdatedBy = AUD.UpdatedBy,
+			RowNum = 
+				ROW_NUMBER () OVER (
+					PARTITION BY
+						AUD.UpdatedBy,
+						AUD.ObjectID
+					ORDER BY
+						AUD.UpdatedDate DESC
+				)
+		FROM AspNetUsers USR
+		INNER JOIN AuditTrail AUD
+			ON AUD.UpdatedBy = USR.Id
+		WHERE
+			AUD.ChangeType = 4
+			AND USR.UserName = @UserName
+			AND AUD.TableName = @TableName
+	) AUD
+	WHERE
+		AUD.RowNum = 1
+	ORDER BY
+		AUD.UpdatedDate DESC
+END

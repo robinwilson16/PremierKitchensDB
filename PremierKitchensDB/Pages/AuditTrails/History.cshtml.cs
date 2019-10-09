@@ -26,24 +26,14 @@ namespace PremierKitchensDB.Pages.AuditTrails
         public async Task OnGetAsync(string tableName, string user)
         {
             AuditTrail = await _context.AuditTrail
-                .Include(a => a.ApplicationUserUpdatedBy)
-                .Where(a => a.TableName.ToString() == tableName && a.ChangeType == 4 && a.ApplicationUserUpdatedBy.UserName == user)
-                .GroupBy(a => a.ObjectID)
-                .Select(a => a.FirstOrDefault())
-                .OrderByDescending(a => a.UpdatedDate)
-                .Take(30)
+                .FromSqlInterpolated($"EXEC sp_GetUserHistory @UserName={user}, @TableName={tableName}")
                 .ToListAsync();
         }
 
         public async Task<IActionResult> OnGetJsonAsync(string tableName, string user)
         {
             AuditTrail = await _context.AuditTrail
-                .Include(a => a.ApplicationUserUpdatedBy)
-                .Where(a => a.TableName.ToString() == tableName && a.ChangeType == 4 && a.ApplicationUserUpdatedBy.UserName == user)
-                .GroupBy(a => a.ObjectID)
-                .Select(a => a.FirstOrDefault())
-                .OrderByDescending(a => a.UpdatedDate)
-                .Take(30)
+                .FromSqlInterpolated($"EXEC sp_GetUserHistory @UserName={user}, @TableName={tableName}")
                 .ToListAsync();
 
             var collectionWrapper = new

@@ -34,7 +34,8 @@ namespace PremierKitchensDB.Data
         public DbSet<Showroom> Showroom { get; set; }
         public DbSet<SourceOfInformation> SourceOfInformation { get; set; }
 
-        public DbSet<PremierKitchensDB.Models.ApplicationRole> ApplicationRole { get; set; }
+        public DbSet<ApplicationRole> ApplicationRole { get; set; }
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

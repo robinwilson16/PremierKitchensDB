@@ -7,7 +7,7 @@
       "destination": "wwwroot/lib/jquery/"
     },
     {
-      "library": "twitter-bootstrap@4.3.1",
+      "library": "twitter-bootstrap@4.4.1",
       "destination": "wwwroot/lib/twitter-bootstrap/"
     },
     {
@@ -23,7 +23,7 @@
       "destination": "wwwroot/lib/moment.js/"
     },
     {
-      "library": "marked@0.7.0",
+      "library": "marked@0.8.0",
       "destination": "wwwroot/lib/marked/"
     }
   ]

@@ -1,4 +1,4 @@
-CREATE PROCEDURE sp_GetUserHistory
+CREATE PROCEDURE [dbo].[sp_GetUserHistory]
 	@UserName NVARCHAR(256),
 	@TableName NVARCHAR(100)
 AS

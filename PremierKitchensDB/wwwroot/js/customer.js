@@ -1,6 +1,4 @@
-﻿$("#LoadingModal").modal("show");
-
-//Enable popovers
+﻿//Enable popovers
 $(function () {
     $("[data-toggle=popover]").popover();
 });
@@ -292,575 +290,581 @@ function showCustomerAlerts(customerID) {
 }
 
 $(function () {
-    $.extend($.fn.dataTable.defaults, {
-        language: {
-            processing: '<div class="col text-center LoadingArea"><i class="fas fa-spinner fa-spin"></i></div>'
-        }
-    });
-
-    var searchParams = $("#FilterQuery").val();
-
-    CustomerListDT = $('#CustomerList').DataTable({
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-        buttons: [
-            {
-                extend: 'colvis',
-                text: '<i class="fas fa-columns"></i> Columns'
-            },
-            {
-                extend: 'copyHtml5',
-                text: '<i class="far fa-copy"></i> Copy',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="far fa-file-excel"></i> Excel',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'csvHtml5',
-                text: '<i class="fas fa-file-csv"></i> CSV',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="far fa-file-pdf"></i> PDF',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Print',
-                exportOptions: {
-                    columns: ':visible'
-                }
+    $("#LoadingModal").modal("show").on('shown.bs.modal', function () {
+        $.extend($.fn.dataTable.defaults, {
+            language: {
+                processing: '<div class="col text-center LoadingArea"><i class="fas fa-spinner fa-spin"></i></div>'
             }
-        ],
-        processing: true,
-        serverSide: false,
-        colReorder: true,
-        deferRender: true,
-        scroller: true,
-        scrollY: 420,
-        ajax: { url: "/Customers/?handler=Json&search=" + searchParams, dataSrc: "" },
-        columns: [
-            {
-                data: {
-                    _: "customerID",
-                    sort: "customerID",
-                    filter: "customerID",
-                    display: cusOpenCustomer
-                }
-            },
-            {
-                data: {
-                    _: "customerID",
-                    sort: "customerID",
-                    filter: "customerID",
-                    display: cusCustomerPhoto
-                }
-            },
-            {
-                data: {
-                    _: "customerID",
-                    sort: "customerID",
-                    filter: "customerID",
-                    display: cusCustomerID
-                }
-            },
-            {
-                data: {
-                    _: "surname",
-                    sort: "surname",
-                    filter: "surname",
-                    display: cusSurname
-                }
-            },
-            {
-                data: {
-                    _: "forename",
-                    sort: "forename",
-                    filter: "forename",
-                    display: cusForename
-                }
-            },
-            {
-                data: {
-                    _: "title",
-                    sort: "title",
-                    filter: "title",
-                    display: cusTitle
-                }
-            },
-            {
-                data: {
-                    _: "address",
-                    sort: "address",
-                    filter: "address",
-                    display: cusAddress
-                }
-            },
-            {
-                data: {
-                    _: "postCode",
-                    sort: "postCode",
-                    filter: "postCode",
-                    display: cusPostCode
-                }
-            },
-            {
-                data: {
-                    _: "email",
-                    sort: "email",
-                    filter: "email",
-                    display: cusEmail
+        });
+
+        var searchParams = $("#FilterQuery").val();
+
+        CustomerListDT = $('#CustomerList').DataTable({
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            buttons: [
+                {
+                    extend: 'colvis',
+                    text: '<i class="fas fa-columns"></i> Columns'
                 },
-                visible: false
-            },
-            {
-                data: {
-                    _: "mobilePhone",
-                    sort: "mobilePhone",
-                    filter: "mobilePhone",
-                    display: cusMobilePhone
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="far fa-copy"></i> Copy',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 },
-                visible: false
-            },
-            {
-                data: {
-                    _: "workPhone",
-                    sort: "workPhone",
-                    filter: "workPhone",
-                    display: cusWorkPhone
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="far fa-file-excel"></i> Excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 },
-                visible: false
-            },
-            {
-                data: {
-                    _: "canBeContacted",
-                    sort: "canBeContacted",
-                    filter: "canBeContacted",
-                    display: cusCanBeContacted
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fas fa-file-csv"></i> CSV',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="far fa-file-pdf"></i> PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 }
-            },
-            {
-                data: {
-                    _: "areas",
-                    sort: "areas",
-                    filter: "areas",
-                    display: cusAreas
+            ],
+            processing: true,
+            serverSide: false,
+            colReorder: true,
+            deferRender: true,
+            scroller: true,
+            scrollY: 420,
+            ajax: { url: "/Customers/?handler=Json&search=" + searchParams, dataSrc: "" },
+            columns: [
+                {
+                    data: {
+                        _: "customerID",
+                        sort: "customerID",
+                        filter: "customerID",
+                        display: cusOpenCustomer
+                    }
+                },
+                {
+                    data: {
+                        _: "customerID",
+                        sort: "customerID",
+                        filter: "customerID",
+                        display: cusCustomerPhoto
+                    }
+                },
+                {
+                    data: {
+                        _: "customerID",
+                        sort: "customerID",
+                        filter: "customerID",
+                        display: cusCustomerID
+                    }
+                },
+                {
+                    data: {
+                        _: "surname",
+                        sort: "surname",
+                        filter: "surname",
+                        display: cusSurname
+                    }
+                },
+                {
+                    data: {
+                        _: "forename",
+                        sort: "forename",
+                        filter: "forename",
+                        display: cusForename
+                    }
+                },
+                {
+                    data: {
+                        _: "title",
+                        sort: "title",
+                        filter: "title",
+                        display: cusTitle
+                    }
+                },
+                {
+                    data: {
+                        _: "address",
+                        sort: "address",
+                        filter: "address",
+                        display: cusAddress
+                    }
+                },
+                {
+                    data: {
+                        _: "postCode",
+                        sort: "postCode",
+                        filter: "postCode",
+                        display: cusPostCode
+                    }
+                },
+                {
+                    data: {
+                        _: "email",
+                        sort: "email",
+                        filter: "email",
+                        display: cusEmail
+                    },
+                    visible: false
+                },
+                {
+                    data: {
+                        _: "mobilePhone",
+                        sort: "mobilePhone",
+                        filter: "mobilePhone",
+                        display: cusMobilePhone
+                    },
+                    visible: false
+                },
+                {
+                    data: {
+                        _: "workPhone",
+                        sort: "workPhone",
+                        filter: "workPhone",
+                        display: cusWorkPhone
+                    },
+                    visible: false
+                },
+                {
+                    data: {
+                        _: "canBeContacted",
+                        sort: "canBeContacted",
+                        filter: "canBeContacted",
+                        display: cusCanBeContacted
+                    }
+                },
+                {
+                    data: {
+                        _: "areas",
+                        sort: "areas",
+                        filter: "areas",
+                        display: cusAreas
+                    }
+                },
+                {
+                    data: {
+                        _: "orderValue",
+                        sort: "orderValue",
+                        filter: "orderValue",
+                        display: cusOrderValue
+                    }
+                },
+                {
+                    data: {
+                        _: "hasOutstandingRemedialWork",
+                        sort: "hasOutstandingRemedialWork",
+                        filter: "hasOutstandingRemedialWork",
+                        display: cusHasOutstandingRemedialWork
+                    }
+                },
+                {
+                    data: {
+                        _: "showroomName",
+                        sort: "showroomName",
+                        filter: "showroomName",
+                        display: cusShowroomName
+                    }
+                },
+                {
+                    data: {
+                        _: "dateOfEnquiry",
+                        sort: "dateOfEnquiry",
+                        filter: "dateOfEnquiry",
+                        display: cusDateOfEnquiry
+                    }
                 }
-            },
-            {
-                data: {
-                    _: "orderValue",
-                    sort: "orderValue",
-                    filter: "orderValue",
-                    display: cusOrderValue
-                }
-            },
-            {
-                data: {
-                    _: "hasOutstandingRemedialWork",
-                    sort: "hasOutstandingRemedialWork",
-                    filter: "hasOutstandingRemedialWork",
-                    display: cusHasOutstandingRemedialWork
-                }
-            },
-            {
-                data: {
-                    _: "showroomName",
-                    sort: "showroomName",
-                    filter: "showroomName",
-                    display: cusShowroomName
-                }
-            },
-            {
-                data: {
-                    _: "dateOfEnquiry",
-                    sort: "dateOfEnquiry",
-                    filter: "dateOfEnquiry",
-                    display: cusDateOfEnquiry
-                }
+            ],
+            //order: [[3, "asc"], [4, "asc"], [2, "asc"]],
+            order: [],
+            drawCallback: function (settings, json) {
+                attachListFunctions(
+                    "OpenCustomerButton",
+                    "CustomerID"
+                );
             }
-        ],
-        //order: [[3, "asc"], [4, "asc"], [2, "asc"]],
-        order: [],
-        drawCallback: function (settings, json) {
-            attachListFunctions(
-                "OpenCustomerButton",
-                "CustomerID"
-            );
-        }
-    });
+        });
 
-    AddressListDT = $('#AddressList').DataTable({
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-        buttons: [
-            {
-                extend: 'colvis',
-                text: '<i class="fas fa-columns"></i> Columns'
-            },
-            {
-                extend: 'copyHtml5',
-                text: '<i class="far fa-copy"></i> Copy',
-                exportOptions: {
-                    columns: ':visible'
+        AddressListDT = $('#AddressList').DataTable({
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            buttons: [
+                {
+                    extend: 'colvis',
+                    text: '<i class="fas fa-columns"></i> Columns'
+                },
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="far fa-copy"></i> Copy',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="far fa-file-excel"></i> Excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fas fa-file-csv"></i> CSV',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="far fa-file-pdf"></i> PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 }
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="far fa-file-excel"></i> Excel',
-                exportOptions: {
-                    columns: ':visible'
+            ],
+            processing: true,
+            serverSide: false,
+            colReorder: true,
+            deferRender: true,
+            scroller: true,
+            scrollY: 300,
+            ajax: { url: "/Addresses/0/?handler=Json", dataSrc: "" },
+            columns: [
+                {
+                    data: {
+                        _: "addressID",
+                        sort: "addressID",
+                        filter: "addressID",
+                        display: adrOpenAddress
+                    }
+                },
+                {
+                    data: {
+                        _: "address1",
+                        sort: "address1",
+                        filter: "address1",
+                        display: adrAddress
+                    }
+                },
+                {
+                    data: {
+                        _: "postcodeOut",
+                        sort: "postcodeOut",
+                        filter: "postcodeOut",
+                        display: adrPostCode
+                    }
+                },
+                {
+                    data: "homePhone"
+                },
+                {
+                    data: {
+                        _: "dateFrom",
+                        sort: "dateFrom",
+                        filter: "dateFrom",
+                        display: adrDateFrom
+                    }
+                },
+                {
+                    data: {
+                        _: "dateTo",
+                        sort: "dateTo",
+                        filter: "dateTo",
+                        display: adrDateTo
+                    }
+                },
+                {
+                    data: {
+                        _: "isPrimary",
+                        sort: "isPrimary",
+                        filter: "isPrimary",
+                        display: adrIsPrimary
+                    }
+                },
+                {
+                    data: "addressType.addressTypeName"
                 }
-            },
-            {
-                extend: 'csvHtml5',
-                text: '<i class="fas fa-file-csv"></i> CSV',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="far fa-file-pdf"></i> PDF',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Print',
-                exportOptions: {
-                    columns: ':visible'
-                }
+            ],
+            //order: [[3, "asc"], [4, "asc"], [2, "asc"]],
+            order: [],
+            drawCallback: function (settings, json) {
+                attachListFunctions(
+                    "OpenAddressButton",
+                    "AddressID"
+                );
             }
-        ],
-        processing: true,
-        serverSide: false,
-        colReorder: true,
-        deferRender: true,
-        scroller: true,
-        scrollY: 300,
-        ajax: { url: "/Addresses/0/?handler=Json", dataSrc: "" },
-        columns: [
-            {
-                data: {
-                    _: "addressID",
-                    sort: "addressID",
-                    filter: "addressID",
-                    display: adrOpenAddress
-                }
-            },
-            {
-                data: {
-                    _: "address1",
-                    sort: "address1",
-                    filter: "address1",
-                    display: adrAddress
-                }
-            },
-            {
-                data: {
-                    _: "postcodeOut",
-                    sort: "postcodeOut",
-                    filter: "postcodeOut",
-                    display: adrPostCode
-                }
-            },
-            {
-                data: "homePhone"
-            },
-            {
-                data: {
-                    _: "dateFrom",
-                    sort: "dateFrom",
-                    filter: "dateFrom",
-                    display: adrDateFrom
-                }
-            },
-            {
-                data: {
-                    _: "dateTo",
-                    sort: "dateTo",
-                    filter: "dateTo",
-                    display: adrDateTo
-                }
-            },
-            {
-                data: {
-                    _: "isPrimary",
-                    sort: "isPrimary",
-                    filter: "isPrimary",
-                    display: adrIsPrimary
-                }
-            },
-            {
-                data: "addressType.addressTypeName"
-            }
-        ],
-        //order: [[3, "asc"], [4, "asc"], [2, "asc"]],
-        order: [],
-        drawCallback: function (settings, json) {
-            attachListFunctions(
-                "OpenAddressButton",
-                "AddressID"
-            );
-        }
-    });
+        });
 
-    NoteListDT = $('#NoteList').DataTable({
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-        buttons: [
-            {
-                extend: 'colvis',
-                text: '<i class="fas fa-columns"></i> Columns'
-            },
-            {
-                extend: 'copyHtml5',
-                text: '<i class="far fa-copy"></i> Copy',
-                exportOptions: {
-                    columns: ':visible'
+        NoteListDT = $('#NoteList').DataTable({
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            buttons: [
+                {
+                    extend: 'colvis',
+                    text: '<i class="fas fa-columns"></i> Columns'
+                },
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="far fa-copy"></i> Copy',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="far fa-file-excel"></i> Excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fas fa-file-csv"></i> CSV',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="far fa-file-pdf"></i> PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 }
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="far fa-file-excel"></i> Excel',
-                exportOptions: {
-                    columns: ':visible'
+            ],
+            processing: true,
+            serverSide: false,
+            colReorder: true,
+            deferRender: true,
+            scroller: true,
+            scrollY: 300,
+            ajax: { url: "/Notes/0/?handler=Json", dataSrc: "" },
+            columns: [
+                {
+                    data: {
+                        _: "noteID",
+                        sort: "noteID",
+                        filter: "noteID",
+                        display: notOpenNote
+                    }
+                },
+                {
+                    data: "noteText"
+                },
+                {
+                    data: {
+                        _: "isAlert",
+                        sort: "isAlert",
+                        filter: "isAlert",
+                        display: notIsAlert
+                    }
+                },
+                {
+                    data: {
+                        _: "createdDate",
+                        sort: "createdDate",
+                        filter: "createdDate",
+                        display: notCreatedDate
+                    }
                 }
-            },
-            {
-                extend: 'csvHtml5',
-                text: '<i class="fas fa-file-csv"></i> CSV',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="far fa-file-pdf"></i> PDF',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Print',
-                exportOptions: {
-                    columns: ':visible'
-                }
+            ],
+            //order: [[1, "asc"], [2, "asc"]],
+            order: [],
+            drawCallback: function (settings, json) {
+                attachListFunctions(
+                    "OpenNoteButton",
+                    "NoteID"
+                );
             }
-        ],
-        processing: true,
-        serverSide: false,
-        colReorder: true,
-        deferRender: true,
-        scroller: true,
-        scrollY: 300,
-        ajax: { url: "/Notes/0/?handler=Json", dataSrc: "" },
-        columns: [
-            {
-                data: {
-                    _: "noteID",
-                    sort: "noteID",
-                    filter: "noteID",
-                    display: notOpenNote
-                }
-            },
-            {
-                data: "noteText"
-            },
-            {
-                data: {
-                    _: "isAlert",
-                    sort: "isAlert",
-                    filter: "isAlert",
-                    display: notIsAlert
-                }
-            },
-            {
-                data: {
-                    _: "createdDate",
-                    sort: "createdDate",
-                    filter: "createdDate",
-                    display: notCreatedDate
-                }
-            }
-        ],
-        //order: [[1, "asc"], [2, "asc"]],
-        order: [],
-        drawCallback: function (settings, json) {
-            attachListFunctions(
-                "OpenNoteButton",
-                "NoteID"
-            );
-        }
-    });
+        });
 
-    AuditListDT = $('#AuditList').DataTable({
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-        buttons: [
-            {
-                extend: 'colvis',
-                text: '<i class="fas fa-columns"></i> Columns'
-            },
-            {
-                extend: 'copyHtml5',
-                text: '<i class="far fa-copy"></i> Copy',
-                exportOptions: {
-                    columns: ':visible'
+        AuditListDT = $('#AuditList').DataTable({
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            buttons: [
+                {
+                    extend: 'colvis',
+                    text: '<i class="fas fa-columns"></i> Columns'
+                },
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="far fa-copy"></i> Copy',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="far fa-file-excel"></i> Excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fas fa-file-csv"></i> CSV',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="far fa-file-pdf"></i> PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 }
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="far fa-file-excel"></i> Excel',
-                exportOptions: {
-                    columns: ':visible'
+            ],
+            processing: true,
+            serverSide: false,
+            colReorder: true,
+            deferRender: true,
+            scroller: true,
+            scrollY: 300,
+            ajax: { url: "/AuditTrails/none/?handler=Json", dataSrc: "" },
+            columns: [
+                {
+                    data: "changeInfo"
+                },
+                {
+                    data: {
+                        _: "updatedDate",
+                        sort: "updatedDate",
+                        filter: "updatedDate",
+                        display: audUpdatedDate
+                    }
+                },
+                {
+                    data: {
+                        _: "applicationUserUpdatedBy.forename",
+                        sort: "applicationUserUpdatedBy.forename",
+                        filter: "applicationUserUpdatedBy.forename",
+                        display: audUpdatedBy
+                    }
                 }
-            },
-            {
-                extend: 'csvHtml5',
-                text: '<i class="fas fa-file-csv"></i> CSV',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="far fa-file-pdf"></i> PDF',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Print',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            }
-        ],
-        processing: true,
-        serverSide: false,
-        colReorder: true,
-        deferRender: true,
-        scroller: true,
-        scrollY: 300,
-        ajax: { url: "/AuditTrails/none/?handler=Json", dataSrc: "" },
-        columns: [
-            {
-                data: "changeInfo"
-            },
-            {
-                data: {
-                    _: "updatedDate",
-                    sort: "updatedDate",
-                    filter: "updatedDate",
-                    display: audUpdatedDate
-                }
-            },
-            {
-                data: {
-                    _: "applicationUserUpdatedBy.forename",
-                    sort: "applicationUserUpdatedBy.forename",
-                    filter: "applicationUserUpdatedBy.forename",
-                    display: audUpdatedBy
-                }
-            }
-        ],
-        //order: [[1, "desc"]]
-        order: []
-    });
+            ],
+            //order: [[1, "desc"]]
+            order: []
+        });
 
-    CustomerHistoryListDT = $('#CustomerHistoryList').DataTable({
-        dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-        buttons: [
-            {
-                extend: 'colvis',
-                text: '<i class="fas fa-columns"></i> Columns'
-            },
-            {
-                extend: 'copyHtml5',
-                text: '<i class="far fa-copy"></i> Copy',
-                exportOptions: {
-                    columns: ':visible'
+        CustomerHistoryListDT = $('#CustomerHistoryList').DataTable({
+            dom: '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>rt<"row"<"col-md text-right"B>><"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+            buttons: [
+                {
+                    extend: 'colvis',
+                    text: '<i class="fas fa-columns"></i> Columns'
+                },
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="far fa-copy"></i> Copy',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="far fa-file-excel"></i> Excel',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fas fa-file-csv"></i> CSV',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="far fa-file-pdf"></i> PDF',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print"></i> Print',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                 }
-            },
-            {
-                extend: 'excelHtml5',
-                text: '<i class="far fa-file-excel"></i> Excel',
-                exportOptions: {
-                    columns: ':visible'
+            ],
+            processing: true,
+            serverSide: false,
+            colReorder: true,
+            deferRender: true,
+            scroller: true,
+            scrollY: 300,
+            ajax: { url: "/AuditTrails/History/Customer/none/?handler=Json", dataSrc: "" },
+            columns: [
+                {
+                    data: {
+                        _: "auditTrailID",
+                        sort: "auditTrailID",
+                        filter: "auditTrailID",
+                        display: hisOpenCustomer
+                    }
+                },
+                {
+                    data: "changeInfo"
+                },
+                {
+                    data: {
+                        _: "updatedDate",
+                        sort: "updatedDate",
+                        filter: "updatedDate",
+                        display: hisUpdatedDate
+                    }
                 }
-            },
-            {
-                extend: 'csvHtml5',
-                text: '<i class="fas fa-file-csv"></i> CSV',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                text: '<i class="far fa-file-pdf"></i> PDF',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'print',
-                text: '<i class="fas fa-print"></i> Print',
-                exportOptions: {
-                    columns: ':visible'
-                }
+            ],
+            //order: [[1, "desc"]],
+            order: [],
+            drawCallback: function (settings, json) {
+                attachListFunctions(
+                    "OpenCustomerButton",
+                    "CustomerID"
+                );
             }
-        ],
-        processing: true,
-        serverSide: false,
-        colReorder: true,
-        deferRender: true,
-        scroller: true,
-        scrollY: 300,
-        ajax: { url: "/AuditTrails/History/Customer/none/?handler=Json", dataSrc: "" },
-        columns: [
-            {
-                data: {
-                    _: "auditTrailID",
-                    sort: "auditTrailID",
-                    filter: "auditTrailID",
-                    display: hisOpenCustomer
-                }
-            },
-            {
-                data: "changeInfo"
-            },
-            {
-                data: {
-                    _: "updatedDate",
-                    sort: "updatedDate",
-                    filter: "updatedDate",
-                    display: hisUpdatedDate
-                }
-            }
-        ],
-        //order: [[1, "desc"]],
-        order: [],
-        drawCallback: function (settings, json) {
-            attachListFunctions(
-                "OpenCustomerButton",
-                "CustomerID"
-            );
-        }
+        });
+
+        $("#LoadingModal").modal("hide");
+        $("#LoadingModal").unbind('shown.bs.modal');
     });
+    
 });
 
 function cusOpenCustomer(data, type, dataToSet) {

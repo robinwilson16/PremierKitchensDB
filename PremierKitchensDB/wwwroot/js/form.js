@@ -108,7 +108,7 @@ function attachListFunctions (
     objectIDField
 ) {
     //Attach after table has finished loading
-    $("#LoadingModal").modal("hide");
+    //$("#LoadingModal").modal("hide");
 
     if (!objectIDField) {
         return true;
@@ -338,83 +338,84 @@ function attachFilterFunctions(colIndex) {
 }
 
 function performFilteredSearch(colIndex, col, comp, val, tbl, curFilter) {
-    $("#LoadingModal").modal("show");
+    $("#LoadingModal").modal("show").on('shown.bs.modal', function () {
 
-    //Handle checkboxes
-    if (val.indexOf('checked="checked"') > -1) {
-        val = "true";
-    }
-    else if (val.indexOf('check-box') > -1) {
-        val = "false";
-    }
+        //Handle checkboxes
+        if (val.indexOf('checked="checked"') > -1) {
+            val = "true";
+        }
+        else if (val.indexOf('check-box') > -1) {
+            val = "false";
+        }
 
-    //Replace commas with |
-    val = val.replace(/[,]/gm, "|");
+        //Replace commas with |
+        val = val.replace(/[,]/gm, "|");
 
-    //Replace spaces with _
-    val = val.replace(/[ ]/gm, "_");
+        //Replace spaces with _
+        val = val.replace(/[ ]/gm, "_");
 
-    //Remove pence
-    val = val.replace(".00", "");
+        //Remove pence
+        val = val.replace(".00", "");
 
-    //If value contains % or * then switch to a like
-    val = val.replace(/[*]/gm, "%");
-    if (val.indexOf("%") > -1) {
-        comp = "LK";
-    }
-    //If value contains < or > then switch to a greater than or less than
-    if (val.indexOf("<=") > -1) {
-        comp = "LTE";
-    }
-    else if (val.indexOf(">=") > -1) {
-        comp = "GTE";
-    }
-    else if (val.indexOf("<") > -1) {
-        comp = "LT";
-    }
-    else if (val.indexOf(">") > -1) {
-        comp = "GT";
-    }
-    //Now remove <, >, = from the value
-    val = val.replace("<=", "");
-    val = val.replace(">=", "");
-    val = val.replace("<", "");
-    val = val.replace(">", "");
+        //If value contains % or * then switch to a like
+        val = val.replace(/[*]/gm, "%");
+        if (val.indexOf("%") > -1) {
+            comp = "LK";
+        }
+        //If value contains < or > then switch to a greater than or less than
+        if (val.indexOf("<=") > -1) {
+            comp = "LTE";
+        }
+        else if (val.indexOf(">=") > -1) {
+            comp = "GTE";
+        }
+        else if (val.indexOf("<") > -1) {
+            comp = "LT";
+        }
+        else if (val.indexOf(">") > -1) {
+            comp = "GT";
+        }
+        //Now remove <, >, = from the value
+        val = val.replace("<=", "");
+        val = val.replace(">=", "");
+        val = val.replace("<", "");
+        val = val.replace(">", "");
 
-    //Store values in popup
-    $("#FilterComp").val(comp);
+        //Store values in popup
+        $("#FilterComp").val(comp);
 
-    //Clear search
-    if (comp === "X") {
-        $("#FilterQuery").val("");
-    }
-    //If blank value filtered on
-    else if (!val) {
-        $("#FilterQuery").val(curFilter + '!' + col + ',NULL');
-    }
-    else {
-        $("#FilterQuery").val(curFilter + '!' + col + ',' + comp + ',' + val);
-    }
-    var searchParams = $("#FilterQuery").val();
-    var curSort = $("#SortQuery").val();
+        //Clear search
+        if (comp === "X") {
+            $("#FilterQuery").val("");
+        }
+        //If blank value filtered on
+        else if (!val) {
+            $("#FilterQuery").val(curFilter + '!' + col + ',NULL');
+        }
+        else {
+            $("#FilterQuery").val(curFilter + '!' + col + ',' + comp + ',' + val);
+        }
+        var searchParams = $("#FilterQuery").val();
+        var curSort = $("#SortQuery").val();
 
-    //Hide tooltip
-    var table = $("#" + tbl);
-    var tableSrc = table.attr("aria-label");
+        //Hide tooltip
+        var table = $("#" + tbl);
+        var tableSrc = table.attr("aria-label");
 
-    table.find("td").popover("hide");
+        table.find("td").popover("hide");
 
-    var listData = table.DataTable();
-    //Use SQL backend to filter list
-    listData.ajax.url("/" + tableSrc + "/?handler=Json&search=" + searchParams + "&sort=" + curSort).load(null, false);
+        var listData = table.DataTable();
+        //Use SQL backend to filter list
+        listData.ajax.url("/" + tableSrc + "/?handler=Json&search=" + searchParams + "&sort=" + curSort).load(null, false);
 
-    //Use DataTables frontend to filter list - use SQL instead due to performance issues over several executions of.load
-    //listData.draw();
+        //Use DataTables frontend to filter list - use SQL instead due to performance issues over several executions of.load
+        //listData.draw();
 
-    $(".FilterApplied").show();
+        $(".FilterApplied").show();
 
-    //Added here as doesn't always clear
-    $("#LoadingModal").modal("hide");
+        $("#LoadingModal").modal("hide");
+        $("#LoadingModal").unbind('shown.bs.modal');
+    });
 }
 
 $(".ClearSortButton").click(function (event) {

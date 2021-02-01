@@ -3,28 +3,37 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "jquery@3.4.1",
+      "library": "jquery@3.5.1",
       "destination": "wwwroot/lib/jquery/"
     },
     {
-      "library": "twitter-bootstrap@4.4.1",
+      "library": "twitter-bootstrap@4.6.0",
       "destination": "wwwroot/lib/twitter-bootstrap/"
     },
     {
-      "library": "font-awesome@5.11.1",
+      "library": "font-awesome@5.15.2",
       "destination": "wwwroot/lib/font-awesome/"
     },
     {
-      "library": "datatables@1.10.19",
+      "library": "datatables@1.10.21",
       "destination": "wwwroot/lib/datatables/"
     },
     {
-      "library": "moment.js@2.24.0",
-      "destination": "wwwroot/lib/moment.js/"
+      "library": "moment.js@2.29.1",
+      "destination": "wwwroot/lib/momentjs/"
     },
     {
-      "library": "marked@0.8.0",
+      "library": "marked@1.2.8",
       "destination": "wwwroot/lib/marked/"
+    },
+    {
+      "library": "ekko-lightbox@5.3.0",
+      "destination": "wwwroot/lib/ekko-lightbox/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "ScrollMagic@2.0.8",
+      "destination": "wwwroot/lib/ScrollMagic/"
     }
   ]
 }
